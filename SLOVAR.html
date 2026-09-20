@@ -317,17 +317,19 @@
     <div id="lessons-list" style="margin-top:12px;"></div>
   </div>
 
-  <div id="screen-editor" class="hidden">
+   <div id="screen-editor" class="hidden">
     <div class="topbar">
       <button class="back-btn" onclick="go('lessons')"><span class="chev">‹</span> Уроки</button>
       <div class="title" id="editor-title">Новый урок</div>
       <button class="icon-btn hidden" id="editor-delete-top" onclick="deleteLesson()" style="background:var(--red); color:#fff; width:auto; padding:0 14px;">🗑</button>
     </div>
+
     <div class="card">
       <div class="field-label">Название урока</div>
       <input type="text" id="editor-name" placeholder="Например: WL1 — Модуль 1" maxlength="60">
       <div class="warn hidden" id="editor-warn"></div>
     </div>
+
     <div class="card">
       <div class="row" style="justify-content:space-between;">
         <b>Слова урока</b>
@@ -335,17 +337,20 @@
       </div>
       <div class="chosen-list" id="editor-chosen"></div>
     </div>
-    <div class="card">
+
+    <!-- КНОПКИ СОХРАНИТЬ / УДАЛИТЬ — ПОД «СЛОВА УРОКА» -->
+    <div class="row" style="margin-top:6px;">
+      <button class="btn" style="flex:1;" onclick="saveLesson()">💾 Сохранить</button>
+      <button class="btn danger hidden" id="editor-delete" onclick="deleteLesson()">🗑 Удалить</button>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
       <div class="row" style="justify-content:space-between;">
         <b>Добавить слова</b>
         <span class="muted" id="editor-found"></span>
       </div>
       <input type="search" id="editor-search" placeholder="Поиск…" autocomplete="off" style="margin-top:10px;">
       <div class="chosen-list" id="editor-results" style="max-height:400px;"></div>
-    </div>
-    <div class="row" style="margin-top:6px;">
-      <button class="btn" style="flex:1;" onclick="saveLesson()">💾 Сохранить</button>
-      <button class="btn danger hidden" id="editor-delete" onclick="deleteLesson()">🗑 Удалить</button>
     </div>
   </div>
 
