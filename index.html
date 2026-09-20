@@ -229,7 +229,9 @@
   .screen-anim{animation:slideUp .28s ease-out;}
 
 .tabbar{
-  position:fixed; left:0; right:0; bottom:0;
+  position:fixed;
+  left:0; right:0;
+  bottom:0;
   background:rgba(28,28,30,.86);
   backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
   border-top:1px solid var(--line);
@@ -240,11 +242,19 @@
   z-index:500;
 }
 
-/* ↓↓↓ ТОЛЬКО ДЛЯ ТЕЛЕФОНОВ ↓↓↓ */
+/* Только на телефонах */
 @media (hover: none) and (pointer: coarse){
   .tabbar{
     bottom:-8px;
-    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+    padding:6px 8px calc(14px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Только в PWA-режиме (с иконки на домашнем экране iPhone) */
+@media (display-mode: standalone){
+  .tabbar{
+    bottom:-14px;
+    padding:6px 8px calc(20px + env(safe-area-inset-bottom));
   }
 }
 
