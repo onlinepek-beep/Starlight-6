@@ -1,1 +1,1 @@
-Мой первый опыт написания html через DeepSeek
+Словарь для Starlight 6. Написано DeepSeek
