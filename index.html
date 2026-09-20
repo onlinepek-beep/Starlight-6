@@ -236,8 +236,16 @@
   display:flex;
   justify-content:center;
   gap:8px;
-  padding:1px 8px calc(1px + env(safe-area-inset-bottom));
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
   z-index:500;
+}
+
+/* ↓↓↓ ТОЛЬКО ДЛЯ ТЕЛЕФОНОВ ↓↓↓ */
+@media (hover: none) and (pointer: coarse){
+  .tabbar{
+    bottom:-8px;
+    padding:6px 8px calc(14px + env(safe-area-inset-bottom));
+  }
 }
 
 .tabbar .tab{
