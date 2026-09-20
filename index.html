@@ -43,13 +43,13 @@
   padding: calc(28px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
 }
 
-  .large-title{
-    font-size:34px; font-weight:800; letter-spacing:-0.6px;
-    margin:14px 4px 18px;
-    cursor:pointer; user-select:none; -webkit-user-select:none;
-    display:inline-block;
-    touch-action: manipulation;
-  }
+ .large-title{
+  font-size:34px; font-weight:800; letter-spacing:-0.6px;
+  margin:14px 4px 18px;
+  cursor:pointer; user-select:none; -webkit-user-select:none;
+  display:inline-block;
+  touch-action: manipulation;
+}
 
   .topbar{display:flex; align-items:center; gap:10px; padding:8px 0 12px; min-height:44px;}
   .back-btn{
@@ -228,18 +228,62 @@
   @keyframes slideUp{0%{opacity:0; transform:translateY(8px);} 100%{opacity:1; transform:translateY(0);}}
   .screen-anim{animation:slideUp .28s ease-out;}
 
-  .tabbar{
-    position:fixed; left:0; right:0; bottom:0;
-    background:rgba(28,28,30,.86);
-    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-    border-top:1px solid var(--line);
-    display:flex; justify-content:space-around; align-items:stretch;
-    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
-    z-index:500;
-  }
-  .tabbar .tab{background:none; color:var(--ink2); display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 12px; min-width:64px; font-size:11px; font-weight:600; flex:1;}
-  .tabbar .tab .ico{font-size:22px; line-height:1;}
-  .tabbar .tab.active{color:var(--blue);}
+.tabbar{
+  position:fixed; left:0; right:0; bottom:0;
+  background:rgba(28,28,30,.86);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  z-index:500;
+}
+
+.tabbar .tab{
+  background:none;
+  color:var(--ink2);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;      /* выравнивание по верху */
+  gap:4px;
+  padding:6px 24px;
+  border-radius:12px;
+  font-family:inherit;
+  font-size:11px;
+  font-weight:600;
+  border:none;
+  transition:background .15s, color .15s;
+}
+
+.tabbar .tab.active{
+  color:var(--blue);
+  background:rgba(10,132,255,.14);
+}
+
+/* Иконка: фиксированный размер по высоте */
+.tabbar .ico{
+  width:24px;
+  height:24px;
+  display:flex;                    /* центрируем SVG внутри */
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.tabbar .ico svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* Подпись: одинаковая высота строки */
+.tabbar .label{
+  display:block;
+  line-height:1;                   /* без лишних отступов */
+  height:12px;                     /* фиксируем, чтобы совпадало */
+  white-space:nowrap;              /* не переносится на 2 строки */
+}
 
   .chosen-list{display:flex; flex-direction:column; gap:8px; max-height:340px; overflow:auto; margin-top:8px;}
   .chosen-item{display:flex; align-items:center; gap:10px; background:var(--card2); border-radius:12px; padding:10px 12px;}
@@ -267,9 +311,10 @@
 <body>
 <div class="app">
 
-  <div id="screen-menu" class="screen-anim">
-    <div class="large-title" id="main-title">Starlight 6</div>
+   <div id="screen-menu" class="screen-anim">
+    <div class="large-title" id="main-title">Starlight 6 — английские слова</div>
 
+    <!-- УРОКИ -->
     <div class="card-list">
       <div class="row" onclick="go('lessons')" style="cursor:pointer;">
         <div class="lesson-badge cur">📚</div>
@@ -279,21 +324,84 @@
         </div>
         <span class="chev">›</span>
       </div>
+    </div>
+
+    <!-- СЛОВАРЬ -->
+    <div class="card-list">
       <div class="row" onclick="go('vocab')" style="cursor:pointer;">
-        <div class="lesson-badge">📖</div>
+        <div class="lesson-badge cur">📖</div>
         <div style="flex:1;">
           <div class="lesson-name">Словарь</div>
-          <div class="lesson-progress">WL1–WL14 · 1303 слова и фразы</div>
+          <div class="lesson-progress">Все слова за год. Найди перевод или повтори.</div>
         </div>
         <span class="chev">›</span>
       </div>
     </div>
 
+    <!-- ЧТО ЭТО? -->
+    <div class="card" style="padding:18px 16px;">
+      <div style="font-size:17px; font-weight:800; letter-spacing:-0.3px; margin-bottom:8px;">
+        Что это?
+      </div>
+      <div class="muted" style="font-size:14px; line-height:1.5; margin-bottom:18px;">
+        Это приложение для тренировки английских слов из учебника Starlight 6. Здесь можно собирать слова в уроки и учить их шаг за шагом.
+      </div>
+
+      <div style="font-size:15px; font-weight:700; margin-bottom:14px;">
+        Как учить слова?
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">📚</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Создай урок</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
+            Назови по теме или как задали — например, «Слова стр. 14». Добавь слова, которые надо выучить.
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">🎮</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Пройди 6 упражнений</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
+            Слушай, играй, собирай слова из букв.
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">🎧</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Напиши диктант</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.5;">
+            Напиши все слова по памяти.<br>
+            Получилось — слова выучены! 🎉<br>
+            Ошибся — слово вернётся, попробуешь ещё.
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <div style="font-size:22px; min-width:28px;">📖</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Открой Словарь</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
+            Там все слова за год. Слушай и повторяй.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ПОДПИСЬ -->
     <div class="card">
       <div class="muted" style="text-align:center;">🇬🇧 Starlight 6</div>
       <div class="muted" style="text-align:center; margin-top:6px; font-size:13px;">Всего: 1303 слова и фразы · WL1–WL14</div>
     </div>
+
   </div>
+
 
   <div id="screen-vocab" class="hidden">
     <div class="topbar">
@@ -382,8 +490,25 @@
 </div>
 
 <div class="tabbar" id="tabbar">
-  <button class="tab" id="tab-lessons" onclick="go('lessons')"><span class="ico">📚</span><span>Уроки</span></button>
-  <button class="tab" id="tab-vocab" onclick="go('vocab')"><span class="ico">📖</span><span>Словарь</span></button>
+  <button class="tab" id="tab-lessons" onclick="go('lessons')">
+    <span class="ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+    </span>
+    <span class="label">Уроки</span>
+  </button>
+  <button class="tab" id="tab-vocab" onclick="go('vocab')">
+    <span class="ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 6.5v13"/>
+        <path d="M2 4.5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 4.5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    </span>
+    <span class="label">Словарь</span>
+  </button>
 </div>
 
 <div id="celebration" class="celebration hidden">
@@ -1816,9 +1941,9 @@ function show(id){
   ['screen-menu','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
     $(x).classList.toggle('hidden', x!==id);
   });
-  const showTabs = (id==='screen-menu' || id==='screen-lessons' || id==='screen-vocab');
+  const showTabs = true;
   $('tabbar').style.display = showTabs ? 'flex' : 'none';
-  $('tab-lessons').classList.toggle('active', id==='screen-lessons' || id==='screen-menu');
+  $('tab-lessons').classList.toggle('active', id==='screen-lessons');
   $('tab-vocab').classList.toggle('active', id==='screen-vocab');
   window.scrollTo(0,0);
 }
