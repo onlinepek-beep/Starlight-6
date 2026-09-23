@@ -38,47 +38,125 @@
     -webkit-font-smoothing:antialiased;
     padding-bottom:env(safe-area-inset-bottom);
   }
- .app{
-  max-width:720px; margin:0 auto;
-  padding: calc(28px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
-}
-
- .large-title{
-  font-size:34px; font-weight:800; letter-spacing:-0.6px;
-  margin:14px 4px 18px;
-  cursor:pointer; user-select:none; -webkit-user-select:none;
-  display:inline-block;
-  touch-action: manipulation;
-}
-
-  .topbar{display:flex; align-items:center; gap:10px; padding:8px 0 12px; min-height:44px;}
-  .back-btn{
-    background:none; border:none; color:var(--blue);
-    font-size:17px; font-weight:500; padding:8px 4px 8px 0;
-    display:inline-flex; align-items:center; gap:2px; cursor:pointer;
+  .app{
+    max-width:720px; margin:0 auto;
+    padding: calc(28px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
   }
-  .back-btn .chev{font-size:22px; line-height:1; margin-right:2px;}
-  .topbar .title{flex:1; text-align:center; font-weight:600; font-size:17px; padding-right:44px;}
-  .topbar .title.left{text-align:left; padding-right:0; font-size:22px; font-weight:700;}
 
-  .card{background:var(--card); border-radius:var(--radius-card); padding:16px; margin-bottom:12px; border:none;}
-  .card-list{background:var(--card); border-radius:var(--radius-card); margin-bottom:12px; overflow:hidden;}
-  .card-list .row{display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line);}
+  .large-title{
+    font-size:34px; font-weight:800; letter-spacing:-0.6px;
+    margin:14px 4px 18px;
+    cursor:pointer; user-select:none; -webkit-user-select:none;
+    display:inline-block;
+    touch-action: manipulation;
+  }
+
+  /* ===== ВЕРХНЕЕ МЕНЮ — ЦЕПОЧКА ===== */
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 0 12px;
+    min-height:44px;
+    max-height:44px;
+    overflow:hidden;
+    width:100%;
+  }
+  .crumb-link{
+    background:none;
+    border:none;
+    color:var(--blue);
+    font-family:inherit;
+    font-size:15px;
+    font-weight:500;
+    padding:6px 2px;
+    cursor:pointer;
+    white-space:nowrap;
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    gap:2px;
+    transition:opacity .1s ease;
+  }
+  .crumb-link:active{ opacity:.55; }
+  .crumb-sep{
+    color:var(--ink3);
+    font-size:14px;
+    flex-shrink:0;
+  }
+  .crumb-current{
+    color:var(--ink2);
+    font-size:15px;
+    font-weight:500;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    min-width:0;
+    flex:1;
+  }
+
+  /* ===== КАРТОЧКИ ===== */
+  .card{
+    background:var(--card); border-radius:var(--radius-card); padding:16px;
+    margin-bottom:12px; border:none;
+    box-shadow:
+      0 1px 3px rgba(0,0,0,.5),
+      0 8px 24px rgba(0,0,0,.25);
+    transition:transform .15s cubic-bezier(.2,.8,.2,1),
+               box-shadow .15s ease;
+  }
+  .card.tappable{ cursor:pointer; }
+  .card.tappable:active{
+    transform:scale(.985);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,.5),
+      0 4px 12px rgba(0,0,0,.3);
+  }
+  .card-list{
+    background:var(--card); border-radius:var(--radius-card);
+    margin-bottom:12px; overflow:hidden;
+    box-shadow:
+      0 1px 3px rgba(0,0,0,.5),
+      0 8px 24px rgba(0,0,0,.25);
+  }
+  .card-list .row{
+    display:flex; align-items:center; gap:12px; padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    transition:background .12s ease, transform .1s ease;
+  }
+  .card-list .row:active{ background:var(--card2); transform:scale(.99); }
   .card-list .row:last-child{border-bottom:none;}
 
+  /* ===== КНОПКИ ===== */
   button{font-family:inherit; cursor:pointer; border:none;}
   .btn{
     background:var(--blue); color:#fff; border-radius:var(--radius-btn);
     padding:14px 18px; min-height:50px; font-weight:600; font-size:17px;
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    transition:background .15s, transform .08s;
+    transition:transform .12s cubic-bezier(.2,.8,.2,1),
+               background .15s ease,
+               box-shadow .15s ease;
+    box-shadow:0 4px 14px rgba(10,132,255,.28);
   }
-  .btn:active{transform:scale(0.985); background:var(--blue-d);}
-  .btn.sec{background:var(--card2); color:var(--ink);}
+  .btn:active{
+    transform:scale(.96);
+    background:var(--blue-d);
+    box-shadow:0 2px 6px rgba(10,132,255,.4);
+  }
+  .btn.sec{
+    background:var(--card2); color:var(--ink);
+    box-shadow:0 4px 14px rgba(0,0,0,.4);
+  }
   .btn.sec:active{background:var(--card3);}
-  .btn.ghost{background:transparent; color:var(--blue); border:1px solid var(--line);}
-  .btn.danger{background:var(--red); color:#fff;}
-  .btn.green{background:var(--green); color:#003018;}
+  .btn.ghost{background:transparent; color:var(--blue); border:1px solid var(--line); box-shadow:none;}
+  .btn.danger{
+    background:var(--red); color:#fff;
+    box-shadow:0 4px 14px rgba(255,69,58,.28);
+  }
+  .btn.green{
+    background:var(--green); color:#003018;
+    box-shadow:0 4px 14px rgba(48,209,88,.28);
+  }
   .btn.wide{width:100%;}
   .btn.big{min-height:56px; font-size:18px;}
   .btn:disabled{opacity:.4; cursor:default; transform:none;}
@@ -87,24 +165,38 @@
     background:var(--card2); color:var(--ink); border-radius:10px;
     min-width:44px; min-height:44px; font-size:18px; padding:0 10px;
     display:inline-flex; align-items:center; justify-content:center;
+    transition:transform .1s ease, background .12s ease;
   }
-  .icon-btn:active{background:var(--card3);}
+  .icon-btn:active{background:var(--card3); transform:scale(.93);}
 
+  /* ===== ПОЛЯ ===== */
   input[type=text], input[type=search]{
     font-family:inherit; font-size:17px; padding:12px 14px;
     border-radius:var(--radius-field); border:none;
     background:var(--card2); color:var(--ink); min-height:50px; width:100%;
+    transition:background .15s ease;
   }
   input::placeholder{color:var(--ink3);}
   input:focus{outline:2px solid var(--blue); outline-offset:-1px;}
   .field-label{color:var(--ink2); font-size:14px; margin:0 0 6px; font-weight:500;}
 
   .az{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 4px;}
-  .az button{background:var(--card2); color:var(--ink); border-radius:10px; min-width:38px; min-height:36px; padding:0 10px; font-weight:600; font-size:15px;}
+  .az button{
+    background:var(--card2); color:var(--ink); border-radius:10px;
+    min-width:38px; min-height:36px; padding:0 10px; font-weight:600; font-size:15px;
+    transition:transform .1s ease, background .12s ease;
+  }
+  .az button:active{transform:scale(.92);}
   .az button.active{background:var(--blue); color:#fff;}
   .az button:disabled{opacity:.28;}
 
-  .word{display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid var(--line);}
+  /* ===== СЛОВАРЬ ===== */
+  .word{
+    display:flex; align-items:center; gap:12px; padding:12px 4px;
+    border-bottom:1px solid var(--line);
+    transition:background .12s ease, transform .1s ease;
+  }
+  .word:active{ background:rgba(44,44,46,.5); transform:scale(.99); }
   .word:last-child{border-bottom:none;}
   .word .en{font-weight:700; font-size:17px;}
   .word .pos{color:var(--ink2); font-size:13px; margin-left:6px;}
@@ -114,18 +206,104 @@
     background:var(--card2); border-radius:50%; width:44px; height:44px;
     min-width:44px; font-size:18px; color:var(--blue);
     display:flex; align-items:center; justify-content:center;
+    transition:transform .1s ease, background .12s ease;
   }
-  .speak:active{background:var(--card3);}
+  .speak:active{background:var(--card3); transform:scale(.92);}
 
-  .lesson-item{display:flex; gap:12px; align-items:center; padding:14px 6px;}
-  .lesson-badge{min-width:34px; height:34px; border-radius:10px; background:var(--card2); color:var(--ink); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:15px;}
-  .lesson-badge.done{background:var(--green); color:#003018;}
-  .lesson-badge.cur{background:var(--blue); color:#fff;}
-  .lesson-name{font-weight:600; font-size:17px;}
-  .lesson-progress{color:var(--ink2); font-size:14px; margin-top:3px;}
-  .lesson-progress.ok{color:var(--green);}
-  .lesson-actions{display:flex; gap:8px; align-items:center;}
-  .chev{color:var(--ink3); font-size:22px; padding:0 4px;}
+  /* ===== СПИСОК УРОКОВ ===== */
+  .lesson-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    height:72px;
+    cursor:pointer;
+    transition:background .12s ease, transform .1s ease;
+  }
+  .lesson-item:active{
+    background:var(--card2);
+    transform:scale(.99);
+  }
+  .lesson-badge{
+    min-width:30px;
+    width:30px;
+    height:30px;
+    border-radius:9px;
+    background:var(--card2);
+    color:var(--ink);
+    font-weight:700;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+  .lesson-badge.done{ background:var(--green); color:#003018; }
+  .lesson-badge.cur{ background:var(--blue); color:#fff; }
+
+  .lesson-info{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    justify-content:center;
+  }
+  .lesson-name{
+    font-weight:600;
+    font-size:15px;
+    line-height:1.3;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .lesson-progress{
+    color:var(--ink2);
+    font-size:12.5px;
+    line-height:1.3;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .lesson-progress.ok{ color:var(--green); }
+
+  .lesson-actions{
+    display:flex;
+    gap:6px;
+    align-items:center;
+    flex-shrink:0;
+  }
+  .lesson-open-btn{
+    height:36px;
+    padding:0 12px;
+    font-size:13.5px;
+    font-weight:600;
+    border-radius:10px;
+    white-space:nowrap;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 3px 10px rgba(10,132,255,.25);
+  }
+  .lesson-edit-btn{
+    width:36px;
+    height:36px;
+    min-width:36px;
+    min-height:36px;
+    padding:0;
+    font-size:15px;
+    border-radius:10px;
+    background:var(--card2);
+    color:var(--ink2);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .lesson-edit-btn:active{
+    background:var(--card3);
+    transform:scale(.92);
+  }
 
   .muted{color:var(--ink2); font-size:15px;}
   .badge{background:var(--card2); color:var(--ink); border-radius:999px; padding:6px 12px; font-size:13px; font-weight:600;}
@@ -136,16 +314,46 @@
   .warn{color:var(--red); font-size:14px; margin-top:8px;}
   .hidden{display:none !important;}
 
-  .progress{height:6px; background:var(--card2); border-radius:999px; overflow:hidden; margin:8px 0;}
-  .progress > i{display:block; height:100%; background:var(--blue); width:0; border-radius:999px; transition:width .3s ease;}
+  /* ===== ПРОГРЕСС ===== */
+  .progress{
+    height:8px; background:var(--card2); border-radius:999px;
+    overflow:hidden; margin:10px 0;
+  }
+  .progress > i{
+    display:block; height:100%; background:linear-gradient(90deg, var(--blue), #4DA3FF);
+    width:0; border-radius:999px;
+    transition:width .5s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 0 10px rgba(10,132,255,.5);
+  }
 
-  .ex-list{background:var(--card); border-radius:var(--radius-card); overflow:hidden;}
-  .ex-row{display:flex; align-items:center; gap:14px; padding:14px 16px; border-bottom:1px solid var(--line); cursor:pointer; transition:background .12s;}
+  /* ===== СПИСОК УПРАЖНЕНИЙ ===== */
+  .ex-list{
+    background:var(--card); border-radius:var(--radius-card);
+    overflow:hidden;
+    box-shadow:
+      0 1px 3px rgba(0,0,0,.5),
+      0 8px 24px rgba(0,0,0,.25);
+  }
+  .ex-row{
+    display:flex; align-items:center; gap:14px; padding:16px;
+    border-bottom:1px solid var(--line); cursor:pointer;
+    transition:background .12s ease, transform .1s ease;
+  }
   .ex-row:last-child{border-bottom:none;}
-  .ex-row:active{background:var(--card2);}
-  .ex-num{min-width:34px; height:34px; border-radius:50%; background:var(--card2); color:var(--ink2); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px;}
-  .ex-num.done{background:var(--green); color:#003018;}
-  .ex-num.cur{background:var(--blue); color:#fff;}
+  .ex-row:active{background:var(--card2); transform:scale(.99);}
+
+  .ex-icon{
+    min-width:40px; height:40px; border-radius:50%;
+    background:var(--card2); color:var(--ink2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:700;
+    transition:background .15s ease, color .15s ease;
+  }
+  .ex-icon.cur{ background:var(--blue); color:#fff; }
+  .ex-icon.done{ background:var(--green); color:#003018; }
+  .ex-icon.star{ font-size:18px; }
+  .ex-icon.done.star{ font-size:16px; }
+
   .ex-main{flex:1; min-width:0;}
   .ex-name{font-weight:600; font-size:16px;}
   .ex-sub{color:var(--ink2); font-size:13px; margin-top:2px;}
@@ -153,15 +361,23 @@
   .ex-status.ok{color:var(--green);}
   .ex-actions{display:flex; gap:8px;}
   .ex-actions button{padding:8px 12px; min-height:38px; font-size:14px; border-radius:10px;}
-  .ex-row.main{background:linear-gradient(180deg, rgba(10,132,255,.10), rgba(10,132,255,0));}
-  .ex-row.main .ex-num{background:var(--blue); color:#fff;}
+  .ex-row.main{
+    background:linear-gradient(180deg, rgba(10,132,255,.10), rgba(10,132,255,0));
+  }
+  .ex-row.main .ex-name{ font-size:17px; }
 
+  /* ===== УПРАЖНЕНИЯ ===== */
   .q{font-size:24px; font-weight:700; margin:8px 0 18px; text-align:center; letter-spacing:-0.3px;}
   .q .sub{display:block; font-size:15px; font-weight:400; color:var(--ink2); margin-top:8px; letter-spacing:0;}
 
   .options{display:grid; grid-template-columns:1fr; gap:10px;}
-  .opt{background:var(--card2); color:var(--ink); border-radius:14px; padding:18px 14px; font-size:17px; font-weight:600; min-height:56px; text-align:center; transition:background .12s, transform .08s;}
-  .opt:active{background:var(--card3); transform:scale(0.99);}
+  .opt{
+    background:var(--card2); color:var(--ink); border-radius:14px;
+    padding:18px 14px; font-size:17px; font-weight:600; min-height:56px;
+    text-align:center;
+    transition:background .12s ease, transform .08s ease;
+  }
+  .opt:active{background:var(--card3); transform:scale(.98);}
   .opt.correct{background:var(--green); color:#003018;}
   .opt.wrong{background:var(--red); color:#fff;}
   .opt:disabled{opacity:1; transform:none;}
@@ -172,15 +388,26 @@
   .pair-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   .pair-grid .col{display:flex; flex-direction:column; gap:10px;}
   .pair-head{color:var(--ink2); font-size:13px; font-weight:600; text-align:center; margin-bottom:4px; letter-spacing:.3px;}
-  .pair{background:var(--card2); color:var(--ink); border-radius:14px; padding:14px 10px; min-height:56px; font-size:16px; font-weight:600; text-align:center; word-break:break-word; transition:background .12s, transform .08s;}
-  .pair:active{background:var(--card3); transform:scale(0.99);}
+  .pair{
+    background:var(--card2); color:var(--ink); border-radius:14px;
+    padding:14px 10px; min-height:56px; font-size:16px; font-weight:600;
+    text-align:center; word-break:break-word;
+    transition:background .12s ease, transform .08s ease;
+  }
+  .pair:active{background:var(--card3); transform:scale(.98);}
   .pair.sel{background:rgba(10,132,255,.22); color:var(--blue);}
   .pair.done{opacity:.35; background:rgba(48,209,88,.18); color:var(--green);}
   .pair.ok{background:rgba(48,209,88,.35); color:var(--green);}
   .pair.bad{background:rgba(255,69,58,.28); color:var(--red);}
 
   .slots{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:14px 0 18px; min-height:60px;}
-  .slot{min-width:44px; height:54px; border-radius:12px; background:var(--card2); color:var(--ink); display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; transition:background .12s;}
+  .slot{
+    min-width:44px; height:54px; border-radius:12px;
+    background:var(--card2); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; font-weight:700;
+    transition:background .12s ease, transform .15s ease;
+  }
   .slot.space{background:transparent;}
   .slot.fixed{background:var(--card); color:var(--ink2);}
   .slot.hinted{background:rgba(255,214,10,.16); color:var(--yellow);}
@@ -188,29 +415,48 @@
   .slots.bad .slot{background:rgba(255,69,58,.28); color:var(--red);}
 
   .letters{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:14px 0;}
-  .letter{min-width:46px; min-height:50px; border-radius:12px; background:var(--card2); color:var(--ink); font-size:20px; font-weight:700; padding:0 12px; transition:background .12s, transform .08s;}
-  .letter:active{background:var(--card3); transform:scale(0.97);}
+  .letter{
+    min-width:46px; min-height:50px; border-radius:12px;
+    background:var(--card2); color:var(--ink);
+    font-size:20px; font-weight:700; padding:0 12px;
+    transition:background .12s ease, transform .08s ease;
+  }
+  .letter:active{background:var(--card3); transform:scale(.95);}
   .letter:disabled{opacity:.28;}
 
   .center{text-align:center;}
-  .speak-big{width:120px; height:120px; border-radius:50%; background:var(--blue); color:#fff; font-size:52px; display:flex; align-items:center; justify-content:center; margin:14px auto; border:none; transition:transform .08s, background .15s;}
-  .speak-big:active{transform:scale(0.96); background:var(--blue-d);}
+  .speak-big{
+    width:120px; height:120px; border-radius:50%;
+    background:var(--blue); color:#fff; font-size:52px;
+    display:flex; align-items:center; justify-content:center;
+    margin:14px auto; border:none;
+    transition:transform .08s ease, background .15s ease;
+    box-shadow:0 8px 30px rgba(10,132,255,.4);
+  }
+  .speak-big:active{transform:scale(.94); background:var(--blue-d);}
   .listen-word{font-size:34px; font-weight:800; margin:8px 0 6px; letter-spacing:-0.6px;}
   .listen-tr{font-size:18px; color:var(--ink2); margin-bottom:18px;}
 
   #dict-input{font-size:20px; text-align:center; font-weight:600; letter-spacing:.3px;}
 
+  /* ===== ФИНАЛ УПРАЖНЕНИЯ ===== */
   .finish{text-align:center; padding:36px 18px; background:transparent;}
   .finish .emoji-big{font-size:64px; line-height:1; margin-bottom:8px;}
   .finish h2{font-size:30px; margin:6px 0 6px; letter-spacing:-0.5px;}
   .finish p{color:var(--ink2); margin:0 0 22px; font-size:16px;}
 
-  .celebration{position:fixed; inset:0; z-index:1000; background:var(--bg); color:#fff; overflow-y:auto; padding:max(24px, env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));}
+  /* ===== ПОЗДРАВЛЕНИЕ ===== */
+  .celebration{
+    position:fixed; inset:0; z-index:1000;
+    background:var(--bg); color:#fff; overflow-y:auto;
+    padding:max(24px, env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));
+  }
   .celebration .inner{position:relative; z-index:2; text-align:center; max-width:520px; margin:0 auto; padding-top:20px;}
   .celebration .emoji-big{font-size:80px; line-height:1; margin-bottom:12px; animation:pop 0.6s ease-out;}
   .celebration h2{font-size:34px; margin:6px 0 6px; letter-spacing:-0.6px; animation:pop 0.7s ease-out;}
   .celebration .sub{font-size:16px; color:var(--ink2); margin-bottom:22px;}
-  .celebration .stats{background:var(--card); border-radius:16px; padding:8px 16px; margin:0 0 22px; text-align:left;}
+  .celebration .stats{background:var(--card); border-radius:16px; padding:8px 16px; margin:0 0 22px; text-align:left;
+    box-shadow: 0 1px 3px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.25);}
   .celebration .stats .r{display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); font-size:16px;}
   .celebration .stats .r:last-child{border-bottom:none;}
   .celebration .stats .r .lbl{color:var(--ink2);}
@@ -220,6 +466,7 @@
   .celebration .btn + .btn{margin-top:10px;}
   .celebration .btn.sec{background:var(--card2); color:var(--ink);}
 
+  /* ===== АНИМАЦИИ ===== */
   .pfx{position:absolute; left:50%; top:50%; width:10px; height:10px; border-radius:50%; pointer-events:none; z-index:1; will-change:transform, opacity;}
   .pfx.rain{top:-20px; left:0;}
   @keyframes pop{0%{transform:scale(0.5); opacity:0;} 60%{transform:scale(1.1); opacity:1;} 100%{transform:scale(1); opacity:1;}}
@@ -228,88 +475,70 @@
   @keyframes slideUp{0%{opacity:0; transform:translateY(8px);} 100%{opacity:1; transform:translateY(0);}}
   .screen-anim{animation:slideUp .28s ease-out;}
 
-.tabbar{
-  position:fixed;
-  left:0; right:0;
-  bottom:0;
-  background:rgba(28,28,30,.86);
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
-  z-index:500;
-}
-
-/* Только на телефонах */
-@media (hover: none) and (pointer: coarse){
-  .tabbar{
-    bottom:-8px;
-    padding:6px 8px calc(14px + env(safe-area-inset-bottom));
+  @keyframes staggerIn{
+    0%{opacity:0; transform:translateY(10px);}
+    100%{opacity:1; transform:translateY(0);}
   }
-}
+  .stagger > *{ animation:staggerIn .35s cubic-bezier(.2,.8,.2,1) both; }
+  .stagger > *:nth-child(1){ animation-delay:.05s; }
+  .stagger > *:nth-child(2){ animation-delay:.10s; }
+  .stagger > *:nth-child(3){ animation-delay:.15s; }
+  .stagger > *:nth-child(4){ animation-delay:.20s; }
+  .stagger > *:nth-child(5){ animation-delay:.25s; }
+  .stagger > *:nth-child(6){ animation-delay:.30s; }
 
-/* Только в PWA-режиме (с иконки на домашнем экране iPhone) */
-@media (display-mode: standalone){
+  /* ===== НИЖНЕЕ МЕНЮ ===== */
   .tabbar{
-    bottom:-14px;
-    padding:6px 8px calc(20px + env(safe-area-inset-bottom));
+    position:fixed; left:0; right:0; bottom:0;
+    background:rgba(28,28,30,.86);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:center;
+    gap:4px;
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+    z-index:500;
   }
-}
+  @media (hover: none) and (pointer: coarse){
+    .tabbar{ bottom:-8px; padding:6px 8px calc(14px + env(safe-area-inset-bottom)); }
+  }
+  .tabbar .tab{
+    background:none; color:var(--ink2);
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    gap:4px; padding:6px 20px; border-radius:12px;
+    font-family:inherit; font-size:11px; font-weight:600; border:none;
+    transition:background .15s, color .15s, transform .1s ease;
+  }
+  .tabbar .tab:active{ transform:scale(.94); }
+  .tabbar .tab.active{ color:var(--blue); background:rgba(10,132,255,.14); }
+  .tabbar .ico{ width:24px; height:24px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .tabbar .ico svg{ width:100%; height:100%; display:block; }
+  .tabbar .label{ display:block; line-height:1; height:12px; white-space:nowrap; }
 
-.tabbar .tab{
-  background:none;
-  color:var(--ink2);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;      /* выравнивание по верху */
-  gap:4px;
-  padding:6px 24px;
-  border-radius:12px;
-  font-family:inherit;
-  font-size:11px;
-  font-weight:600;
-  border:none;
-  transition:background .15s, color .15s;
-}
-
-.tabbar .tab.active{
-  color:var(--blue);
-  background:rgba(10,132,255,.14);
-}
-
-/* Иконка: фиксированный размер по высоте */
-.tabbar .ico{
-  width:24px;
-  height:24px;
-  display:flex;                    /* центрируем SVG внутри */
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-.tabbar .ico svg{
-  width:100%;
-  height:100%;
-  display:block;
-}
-
-/* Подпись: одинаковая высота строки */
-.tabbar .label{
-  display:block;
-  line-height:1;                   /* без лишних отступов */
-  height:12px;                     /* фиксируем, чтобы совпадало */
-  white-space:nowrap;              /* не переносится на 2 строки */
-}
-
+  /* ===== РЕДАКТОР ===== */
   .chosen-list{display:flex; flex-direction:column; gap:8px; max-height:340px; overflow:auto; margin-top:8px;}
-  .chosen-item{display:flex; align-items:center; gap:10px; background:var(--card2); border-radius:12px; padding:10px 12px;}
+  .chosen-item{
+    display:flex; align-items:center; gap:10px;
+    background:var(--card2); border-radius:12px; padding:10px 12px;
+    transition:transform .1s ease, background .12s ease;
+  }
+  .chosen-item:active{ transform:scale(.99); }
   .chosen-item .n{color:var(--ink2); font-size:13px; font-weight:600; min-width:22px; text-align:right;}
   .chosen-item .t{flex:1; min-width:0;}
   .chosen-item .t b{display:block; font-weight:600; font-size:16px;}
   .chosen-item .t span{color:var(--ink2); font-size:14px;}
 
+  /* Счётчик символов */
+  .char-count{
+    font-size:13px;
+    color:var(--ink2);
+    flex-shrink:0;
+    transition:color .2s ease;
+  }
+  .char-count.warn{ color:var(--yellow); }
+  .char-count.danger{ color:var(--red); }
+
+  /* ===== ПАСХАЛКА ===== */
   .easteregg-toast{
     position:fixed; left:50%; top:50%; transform:translate(-50%,-50%) scale(.9);
     background:rgba(28,28,30,.98); border:1px solid var(--line);
@@ -332,7 +561,6 @@
    <div id="screen-menu" class="screen-anim">
     <div class="large-title" id="main-title">Starlight 6 — английские слова</div>
 
-    <!-- УРОКИ -->
     <div class="card-list">
       <div class="row" onclick="go('lessons')" style="cursor:pointer;">
         <div class="lesson-badge cur">📚</div>
@@ -344,7 +572,6 @@
       </div>
     </div>
 
-    <!-- СЛОВАРЬ -->
     <div class="card-list">
       <div class="row" onclick="go('vocab')" style="cursor:pointer;">
         <div class="lesson-badge cur">📖</div>
@@ -356,8 +583,7 @@
       </div>
     </div>
 
-    <!-- ЧТО ЭТО? -->
-    <div class="card" style="padding:18px 16px;">
+    <div class="card tappable">
       <div style="font-size:17px; font-weight:800; letter-spacing:-0.3px; margin-bottom:8px;">
         Что это?
       </div>
@@ -382,7 +608,7 @@
       <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
         <div style="font-size:22px; min-width:28px;">🎮</div>
         <div style="flex:1;">
-          <div style="font-weight:600; font-size:15px;">Пройди 6 упражнений</div>
+          <div style="font-weight:600; font-size:15px;">Пройди упражнения</div>
           <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
             Слушай, играй, собирай слова из букв.
           </div>
@@ -412,7 +638,6 @@
       </div>
     </div>
 
-    <!-- ПОДПИСЬ -->
     <div class="card">
       <div class="muted" style="text-align:center;">🇬🇧 Starlight 6</div>
       <div class="muted" style="text-align:center; margin-top:6px; font-size:13px;">Всего: 1303 слова и фразы · WL1–WL14</div>
@@ -423,8 +648,9 @@
 
   <div id="screen-vocab" class="hidden">
     <div class="topbar">
-      <button class="back-btn" onclick="go('menu')"><span class="chev">‹</span> Меню</button>
-      <div class="title">Словарь</div>
+      <button class="crumb-link" onclick="go('menu')">‹ Главная</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current">Словарь</span>
     </div>
     <div class="card" style="padding:12px;">
       <input type="search" id="vocab-search" placeholder="Поиск по английскому или русскому…" autocomplete="off">
@@ -436,23 +662,30 @@
 
   <div id="screen-lessons" class="hidden">
     <div class="topbar">
-      <button class="back-btn" onclick="go('menu')"><span class="chev">‹</span> Меню</button>
-      <div class="title">Уроки</div>
+      <button class="crumb-link" onclick="go('menu')">‹ Главная</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current">Уроки</span>
     </div>
     <button class="btn wide big" onclick="openLessonEditor(null)">＋ Создать урок</button>
-    <div id="lessons-list" style="margin-top:12px;"></div>
+    <div id="lessons-list" class="stagger" style="margin-top:12px;"></div>
   </div>
 
    <div id="screen-editor" class="hidden">
     <div class="topbar">
-      <button class="back-btn" onclick="go('lessons')"><span class="chev">‹</span> Уроки</button>
-      <div class="title" id="editor-title">Новый урок</div>
-      <button class="icon-btn hidden" id="editor-delete-top" onclick="deleteLesson()" style="background:var(--red); color:#fff; width:auto; padding:0 14px;">🗑</button>
+      <button class="crumb-link" onclick="go('lessons')">‹ Уроки</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current" id="editor-title">Новый урок</span>
     </div>
 
     <div class="card">
       <div class="field-label">Название урока</div>
-      <input type="text" id="editor-name" placeholder="Например: WL1 — Модуль 1" maxlength="60">
+      <input type="text" id="editor-name" placeholder="Урок 1" maxlength="17">
+      <div class="row" style="justify-content:space-between; margin-top:6px;">
+        <span class="muted" style="font-size:13px;">
+          Коротко: «Урок 1», «WL1», «Модуль 2»
+        </span>
+        <span class="char-count" id="editor-name-count">0 / 17</span>
+      </div>
       <div class="warn hidden" id="editor-warn"></div>
     </div>
 
@@ -464,7 +697,6 @@
       <div class="chosen-list" id="editor-chosen"></div>
     </div>
 
-    <!-- КНОПКИ СОХРАНИТЬ / УДАЛИТЬ — ПОД «СЛОВА УРОКА» -->
     <div class="row" style="margin-top:6px;">
       <button class="btn" style="flex:1;" onclick="saveLesson()">💾 Сохранить</button>
       <button class="btn danger hidden" id="editor-delete" onclick="deleteLesson()">🗑 Удалить</button>
@@ -482,15 +714,16 @@
 
   <div id="screen-lesson" class="hidden">
     <div class="topbar">
-      <button class="back-btn" onclick="exitLesson()"><span class="chev">‹</span> Уроки</button>
-      <div class="title" id="lesson-title"></div>
+      <button class="crumb-link" onclick="exitLesson()">‹ Уроки</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current" id="lesson-title"></span>
     </div>
     <div class="muted center" id="lesson-pill" style="margin-bottom:14px;"></div>
     <div id="ex-menu"></div>
     <div id="ex-area" class="hidden"></div>
     <div id="ex-finish" class="finish hidden">
-      <div class="emoji-big">🎉</div>
-      <h2>Молодец!</h2>
+      <div class="emoji-big" id="ex-finish-emoji">🎉</div>
+      <h2 id="ex-finish-title">Молодец!</h2>
       <p id="ex-finish-text">Упражнение закончено</p>
       <div class="stack" style="max-width:360px; margin:0 auto;">
         <button class="btn big" id="ex-finish-next" onclick="afterExercise()">Следующее упражнение</button>
@@ -508,6 +741,14 @@
 </div>
 
 <div class="tabbar" id="tabbar">
+  <button class="tab" id="tab-home" onclick="go('menu')">
+    <span class="ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </span>
+    <span class="label">Главная</span>
+  </button>
   <button class="tab" id="tab-lessons" onclick="go('lessons')">
     <span class="ico">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1867,6 +2108,7 @@ const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const FIXED_CHARS = /[\s\-'’]/;
 const MAX_HINTS = 3;
 const EASTER_EGG = 'kirill';
+const NAME_MAX = 17;
 
 function wordDeclension(n){
   const n10 = n % 10;
@@ -1876,6 +2118,17 @@ function wordDeclension(n){
   return 'слов';
 }
 function wordsLabel(n){ return n + ' ' + wordDeclension(n); }
+
+function updateCount(inputId, countId, max){
+  const input = $(inputId);
+  const counter = $(countId);
+  if(!input || !counter) return;
+  const len = input.value.length;
+  counter.textContent = len + ' / ' + max;
+  counter.classList.remove('warn', 'danger');
+  if(len >= max) counter.classList.add('danger');
+  else if(len >= max * 0.8) counter.classList.add('warn');
+}
 
 let voices = [];
 function loadVoices(){ voices = window.speechSynthesis ? speechSynthesis.getVoices() : []; }
@@ -1959,8 +2212,8 @@ function show(id){
   ['screen-menu','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
     $(x).classList.toggle('hidden', x!==id);
   });
-  const showTabs = true;
-  $('tabbar').style.display = showTabs ? 'flex' : 'none';
+  $('tabbar').style.display = 'flex';
+  $('tab-home').classList.toggle('active', id==='screen-menu');
   $('tab-lessons').classList.toggle('active', id==='screen-lessons');
   $('tab-vocab').classList.toggle('active', id==='screen-vocab');
   window.scrollTo(0,0);
@@ -1985,7 +2238,6 @@ function onTitleTap(){
   }
 }
 function fireworksOnTitle(){
-  const box = document.body;
   for(let i=0;i<60;i++){
     const p = document.createElement('div');
     p.className = 'pfx';
@@ -2088,13 +2340,14 @@ function renderVocab(){
     </div>`).join('');
 }
 
+/* ===== МЕТА УПРАЖНЕНИЙ ===== */
 const EX_META = {
-  listen:    { icon:'🔊', num:'1', name:'Слушать',      sub:'Прослушай все слова' },
-  cards:     { icon:'🃏', num:'2', name:'Карточки',     sub:'Выбери правильный перевод' },
-  truefalse: { icon:'✅', num:'3', name:'Верно / Неверно', sub:'Проверь свои знания' },
-  pairs:     { icon:'🔗', num:'4', name:'Собери пару',  sub:'Соедини слова' },
-  letters:   { icon:'🔤', num:'5', name:'Собери слово', sub:'Составь слово из букв' },
-  dictation: { icon:'🎧', num:'6', name:'Диктант',      sub:'Напиши слово самостоятельно' }
+  listen:    { icon:'1',  name:'Слушать',          sub:'Прослушай все слова' },
+  cards:     { icon:'2',  name:'Карточки',         sub:'Выбери правильный перевод' },
+  truefalse: { icon:'3',  name:'Верно / Неверно',  sub:'Проверь свои знания' },
+  pairs:     { icon:'4',  name:'Собери пару',      sub:'Соедини слова' },
+  letters:   { icon:'5',  name:'Собери слово',     sub:'Составь слово из букв' },
+  dictation: { icon:'★',  name:'Диктант',          sub:'Напиши слово самостоятельно', star:true }
 };
 const EX_FIXED = ['listen','pairs'];
 const EX_ORDER = ['listen','cards','truefalse','pairs','letters','dictation'];
@@ -2109,15 +2362,15 @@ function renderLessons(){
     const badgeCls = done ? 'done' : '';
     const badgeTxt = done ? '✓' : (idx+1);
     return `<div class="card" style="padding:0;">
-      <div class="lesson-item">
+      <div class="lesson-item" onclick="openLesson('${l.id}')">
         <div class="lesson-badge ${badgeCls}">${badgeTxt}</div>
-        <div style="flex:1; min-width:0;">
+        <div class="lesson-info">
           <div class="lesson-name">${esc(l.name)}</div>
           <div class="lesson-progress ${done?'ok':''}">${wordsLabel(total)} · ${done ? 'Диктант пройден' : (solved + ' / ' + total)}</div>
         </div>
         <div class="lesson-actions">
-          <button class="btn" onclick="openLesson('${l.id}')">${done?'Повторить':'Открыть'}</button>
-          <button class="icon-btn" onclick="openLessonEditor('${l.id}')">✏️</button>
+          <button class="btn lesson-open-btn" onclick="event.stopPropagation(); openLesson('${l.id}')">${done?'Повторить':'Открыть'}</button>
+          <button class="icon-btn lesson-edit-btn" onclick="event.stopPropagation(); openLessonEditor('${l.id}')">✏️</button>
         </div>
       </div>
     </div>`;
@@ -2131,15 +2384,15 @@ function openLessonEditor(id){
     editor = { id, name:l.name, wordIds:l.wordIds.slice(), search:'' };
     $('editor-title').textContent = 'Изменить урок';
     $('editor-delete').classList.remove('hidden');
-    $('editor-delete-top').classList.remove('hidden');
   } else {
-    editor = { id:null, name:'', wordIds:[], search:'' };
+    const nextNum = lessons.length + 1;
+    editor = { id:null, name:'Урок ' + nextNum, wordIds:[], search:'' };
     $('editor-title').textContent = 'Новый урок';
     $('editor-delete').classList.add('hidden');
-    $('editor-delete-top').classList.add('hidden');
   }
   state.editingLessonId = id || null; saveState();
   $('editor-name').value = editor.name;
+  updateCount('editor-name', 'editor-name-count', NAME_MAX);
   $('editor-search').value = '';
   $('editor-warn').classList.add('hidden');
   renderEditor();
@@ -2182,7 +2435,7 @@ function renderEditorResults(){
   }).join('');
 }
 function saveLesson(){
-  const name = $('editor-name').value.trim();
+  const name = $('editor-name').value.trim().slice(0, NAME_MAX);
   const warn = $('editor-warn');
   if(!name){ warn.textContent='Введи название урока.'; warn.classList.remove('hidden'); return; }
   if(!editor.wordIds.length){ warn.textContent='Нельзя сохранить пустой урок.'; warn.classList.remove('hidden'); return; }
@@ -2254,9 +2507,9 @@ function renderExMenu(){
   const others = ['listen','cards','truefalse','pairs','letters'].map(k=>renderExRow(k, l.id, total, false)).join('');
   box.innerHTML = `
     <div class="muted" style="margin:0 4px 8px; font-size:14px;">🎯 Главный результат — диктант</div>
-    <div class="ex-list">${dRow}</div>
-    <div class="muted" style="margin:18px 4px 8px; font-size:14px;">Остальные упражнения</div>
-    <div class="ex-list">${others}</div>
+    <div class="ex-list stagger">${dRow}</div>
+    <div class="muted" style="margin:18px 4px 8px; font-size:14px;">Упражнения</div>
+    <div class="ex-list stagger">${others}</div>
   `;
 }
 function renderExRow(key, lessonId, total, isMain){
@@ -2264,10 +2517,11 @@ function renderExRow(key, lessonId, total, isMain){
   const isFixed = EX_FIXED.includes(key);
   const done = isExDone(lessonId, key, total);
   const solved = exSolvedCount(lessonId, key);
-  let numCls = 'ex-num';
-  if(done) numCls += ' done';
-  else if(isMain || solved > 0) numCls += ' cur';
-  if(isMain && !done) numCls = 'ex-num cur';
+  let iconCls = 'ex-icon';
+  if(m.star) iconCls += ' star';
+  if(done) iconCls += ' done';
+  else if(solved > 0 || isMain) iconCls += ' cur';
+  const iconContent = done ? '✓' : m.icon;
   let statusHTML = '';
   let actionHTML = '';
   if(done){
@@ -2278,7 +2532,7 @@ function renderExRow(key, lessonId, total, isMain){
   else { statusHTML = `<span class="ex-status">0/${total}</span>`; actionHTML = `<span class="chev">›</span>`; }
   const rowClick = done ? `onclick="startExercise('${key}', true)"` : `onclick="startExercise('${key}')"`;
   return `<div class="ex-row ${isMain?'main':''}" ${rowClick}>
-    <div class="${numCls}">${done ? '✓' : m.num}</div>
+    <div class="${iconCls}">${iconContent}</div>
     <div class="ex-main">
       <div class="ex-name">${m.name}</div>
       <div class="ex-sub">${m.sub}</div>
@@ -2868,8 +3122,21 @@ function finishExercise(complete){
   const total = l.wordIds.length;
   const done = isExDone(l.id, key, total);
   const solved = exSolvedCount(l.id, key);
-  if(done){ $('ex-finish-text').textContent = 'Упражнение пройдено'; retry.classList.add('hidden'); }
-  else { $('ex-finish-text').textContent = `Пройдено ${solved} / ${total}. Доделать?`; retry.classList.remove('hidden'); }
+
+  const emojiEl = $('ex-finish-emoji');
+  const titleEl = $('ex-finish-title');
+
+  if(done){
+    emojiEl.textContent = '🎉';
+    titleEl.textContent = 'Молодец!';
+    $('ex-finish-text').textContent = 'Упражнение пройдено';
+    retry.classList.add('hidden');
+  } else {
+    emojiEl.textContent = '🤔';
+    titleEl.textContent = 'Почти получилось';
+    $('ex-finish-text').textContent = `Пройдено ${solved} / ${total}. Доделать?`;
+    retry.classList.remove('hidden');
+  }
   window.scrollTo(0,0);
 }
 
@@ -2888,8 +3155,12 @@ function boot(){
   else go('menu');
   $('vocab-search').addEventListener('input', e=>{ vocabUI.search = e.target.value; renderVocab(); });
   $('editor-search').addEventListener('input', e=>{ editor.search = e.target.value; renderEditorResults(); });
-  $('editor-name').addEventListener('input', e=>{ editor.name = e.target.value; });
+  $('editor-name').addEventListener('input', e=>{
+    editor.name = e.target.value;
+    updateCount('editor-name', 'editor-name-count', NAME_MAX);
+  });
   $('main-title').addEventListener('click', onTitleTap);
+  updateCount('editor-name', 'editor-name-count', NAME_MAX);
 }
 document.addEventListener('DOMContentLoaded', boot);
 </script>
