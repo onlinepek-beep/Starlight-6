@@ -659,7 +659,92 @@
   .easteregg-toast .eg-title{font-size:22px; font-weight:800; margin-bottom:6px;}
   .easteregg-toast .eg-sub{color:var(--ink2); font-size:15px; margin-bottom:16px;}
   .easteregg-toast .eg-close{background:var(--card2); color:var(--ink); border-radius:12px; padding:12px 20px; min-height:48px; font-weight:600; font-size:16px; width:100%;}
-</style>
+
+  /* ===== ЦИФРЫ ===== */
+  .numbers-intro{
+    text-align:center;
+    padding:18px 16px;
+  }
+  .numbers-intro-title{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-0.3px;
+    margin-bottom:6px;
+  }
+  .numbers-intro-text{
+    color:var(--ink2);
+    font-size:14px;
+    line-height:1.45;
+  }
+  .numbers-blocks{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+    margin:12px 0;
+  }
+  .numbers-blocks button{
+    background:var(--card2);
+    color:var(--ink);
+    border-radius:10px;
+    min-height:42px;
+    padding:0 8px;
+    font-size:14px;
+    font-weight:600;
+  }
+  .numbers-blocks button.active{
+    background:var(--blue);
+    color:#fff;
+  }
+  .numbers-list{
+    background:var(--card);
+    border-radius:var(--radius-card);
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.25);
+  }
+  .number-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .number-card:last-child{border-bottom:none;}
+  .number-value{
+    min-width:48px;
+    font-size:22px;
+    font-weight:800;
+    text-align:center;
+  }
+  .number-main{
+    flex:1;
+    min-width:0;
+  }
+  .number-english{
+    font-size:17px;
+    font-weight:700;
+  }
+  .number-translation{
+    color:var(--ink2);
+    font-size:14px;
+    margin-top:2px;
+  }
+  .number-speak{
+    background:var(--card2);
+    color:var(--blue);
+    border-radius:50%;
+    width:44px;
+    height:44px;
+    min-width:44px;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .number-speak:active{
+    background:var(--card3);
+    transform:scale(.92);
+  }
+\n</style>
 </head>
 <body>
 <div class="app">
@@ -684,6 +769,17 @@
         <div style="flex:1;">
           <div class="lesson-name">Алфавит</div>
           <div class="lesson-progress">Изучаем английский алфавит</div>
+        </div>
+        <span class="chev">›</span>
+      </div>
+    </div>
+
+    <div class="card-list">
+      <div class="row" onclick="go('numbers')" style="cursor:pointer;">
+        <div class="lesson-badge cur">🔢</div>
+        <div style="flex:1;">
+          <div class="lesson-name">Цифры</div>
+          <div class="lesson-progress">От 1 до 100 на английском</div>
         </div>
         <span class="chev">›</span>
       </div>
@@ -779,6 +875,24 @@
     </div>
 
     <div id="alphabet-list" class="alphabet-list"></div>
+  </div>
+
+  <div id="screen-numbers" class="hidden">
+    <div class="topbar">
+      <button class="crumb-link" onclick="go('menu')">‹ Главная</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current">Цифры</span>
+    </div>
+
+    <div class="card numbers-intro">
+      <div class="numbers-intro-title">От 1 до 100 на английском</div>
+      <div class="numbers-intro-text">
+        Выбери блок и нажми 🔊, чтобы услышать число.
+      </div>
+    </div>
+
+    <div id="numbers-blocks" class="numbers-blocks"></div>
+    <div id="numbers-content" class="numbers-list"></div>
   </div>
 
   <div id="screen-vocab" class="hidden">
@@ -986,7 +1100,7 @@ async function loadVocabulary(){
 </script>
 
 <!-- Данные и логика раздела «Алфавит» вынесены в отдельный JS-файл. -->
-<script src="./js/alphabet.js"></script>
+<script src="./js/alphabet.js"></script>\n<script src="./js/numbers.js"></script>
 
 <script>
 /* ================= УТИЛИТЫ ================= */
@@ -1141,7 +1255,7 @@ function reconcileProgress(lessonId, newWordIds){
 }
 
 function show(id){
-  ['screen-menu','screen-alphabet','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
+  ['screen-menu','screen-alphabet','screen-numbers','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
     $(x).classList.toggle('hidden', x!==id);
   });
   $('tabbar').style.display = 'flex';
@@ -1154,6 +1268,7 @@ function go(screen){
   state.screen = screen; saveState();
   if(screen==='menu') show('screen-menu');
   else if(screen==='alphabet'){ show('screen-alphabet'); renderAlphabet(); }
+  else if(screen==='numbers'){ show('screen-numbers'); renderNumbers(); }
   else if(screen==='vocab'){ show('screen-vocab'); renderVocab(); }
   else if(screen==='lessons'){ show('screen-lessons'); renderLessons(); }
 }
