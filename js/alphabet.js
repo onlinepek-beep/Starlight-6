@@ -5,7 +5,7 @@
  * Данные и логика раздела «Алфавит» вынесены в отдельный файл.
  *
  * Буквы воспроизводятся из MP3:
- *   ./audio/alphabet/A.mp3 ... ./audio/alphabet/Z.mp3
+ *   ./audio/alphabet/A1.mp3 ... ./audio/alphabet/Z1.mp3
  *
  * Примеры слов по-прежнему произносятся через speakEN().
  * ============================================================
@@ -71,15 +71,12 @@ function renderAlphabet(){
   `).join('');
 }
 
-/*
- * Проигрываем настоящую запись буквы.
- * Один Audio-объект переиспользуется, чтобы записи не накладывались.
- */
+/* Проигрываем настоящую запись буквы. */
 let alphabetAudio = null;
 
 function alphabetPlayLetter(letter){
   const upper = String(letter).toUpperCase();
-  const src = `./audio/alphabet/${upper}.mp3`;
+  const src = `./audio/alphabet/${upper}1.mp3`;
 
   if(alphabetAudio){
     alphabetAudio.pause();
@@ -88,7 +85,9 @@ function alphabetPlayLetter(letter){
 
   alphabetAudio = new Audio(src);
   alphabetAudio.preload = 'auto';
-  alphabetAudio.play().catch(() => {});
+  alphabetAudio.play().catch(error => {
+    console.warn('Не удалось воспроизвести запись буквы:', src, error);
+  });
 }
 
 /* Пример слова оставляем на обычном TTS. */
