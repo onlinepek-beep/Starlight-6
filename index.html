@@ -44,11 +44,17 @@
   }
 
   .large-title{
-    font-size:34px; font-weight:800; letter-spacing:-0.6px;
+    font-size:clamp(21px, 6vw, 34px);
+    font-weight:800;
+    letter-spacing:-0.8px;
     margin:14px 4px 18px;
-    cursor:pointer; user-select:none; -webkit-user-select:none;
-    display:inline-block;
-    touch-action: manipulation;
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    display:block;
+    width:100%;
+    white-space:nowrap;
+    touch-action:manipulation;
   }
 
   /* ===== ВЕРХНЕЕ МЕНЮ — ЦЕПОЧКА ===== */
@@ -129,21 +135,27 @@
     font-weight:700;
   }
   .help-toggle .help-arrow{
-    color:var(--ink2);
-    font-size:20px;
+    width:9px;
+    height:9px;
+    border-right:2px solid var(--ink2);
+    border-bottom:2px solid var(--ink2);
+    transform:rotate(45deg);
+    flex-shrink:0;
     transition:transform .25s ease;
+    margin:0 3px 5px 0;
   }
-  .help-card.open .help-arrow{ transform:rotate(180deg); }
+  .help-card.open .help-arrow{
+    transform:rotate(225deg);
+    margin-bottom:-4px;
+  }
   .help-body{
-    display:grid;
-    grid-template-rows:0fr;
-    transition:grid-template-rows .28s ease;
-  }
-  .help-card.open .help-body{ grid-template-rows:1fr; }
-  .help-inner{
-    min-height:0;
+    max-height:0;
     overflow:hidden;
-    padding:0 16px;
+    transition:max-height .3s ease;
+  }
+  .help-card.open .help-body{ max-height:420px; }
+  .help-inner{
+    padding:0 16px 0;
   }
   .help-card.open .help-inner{ padding-bottom:16px; }
   .help-step{
