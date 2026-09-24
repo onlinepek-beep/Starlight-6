@@ -4,14 +4,10 @@
  * ============================================================
  * Данные и логика раздела «Алфавит» вынесены в отдельный файл.
  *
- * Здесь хранятся:
- *   - 26 английских букв;
- *   - русская подсказка по названию буквы;
- *   - пример слова;
- *   - перевод примера.
+ * Буквы воспроизводятся из MP3:
+ *   ./audio/alphabet/A.mp3 ... ./audio/alphabet/Z.mp3
  *
- * Произношение запускается через общую функцию speakEN(),
- * которая находится в index.html и использует speechSynthesis.
+ * Примеры слов по-прежнему произносятся через speakEN().
  * ============================================================
  */
 
@@ -23,7 +19,7 @@ const ALPHABET_DATA = [
   { letter:'E', pronunciation:'и',   word:'elephant',   translation:'слон' },
   { letter:'F', pronunciation:'эф',  word:'fish',       translation:'рыба' },
   { letter:'G', pronunciation:'джи', word:'girl',       translation:'девочка' },
-  { letter:'H', pronunciation:'эйч', word:'house',     translation:'дом' },
+  { letter:'H', pronunciation:'эйч', word:'house',      translation:'дом' },
   { letter:'I', pronunciation:'ай',  word:'ice cream',  translation:'мороженое' },
   { letter:'J', pronunciation:'джей',word:'juice',      translation:'сок' },
   { letter:'K', pronunciation:'кей', word:'kite',       translation:'воздушный змей' },
@@ -44,10 +40,7 @@ const ALPHABET_DATA = [
   { letter:'Z', pronunciation:'зед', word:'zebra',      translation:'зебра' }
 ];
 
-/*
- * Рисуем весь экран алфавита.
- * Один элемент = одна буква + её произношение + пример слова.
- */
+/* Рисуем карточки алфавита. */
 function renderAlphabet(){
   const box = $('alphabet-list');
   if(!box) return;
@@ -56,16 +49,14 @@ function renderAlphabet(){
     <div class="alphabet-card">
       <button
         class="alphabet-letter"
-        onclick="alphabetSpeakLetter('${item.letter}')"
+        onclick="alphabetPlayLetter('${item.letter}')"
         aria-label="Произнести букву ${item.letter}">
         <span class="alphabet-upper">${item.letter}</span>
         <span class="alphabet-lower">${item.letter.toLowerCase()}</span>
       </button>
 
       <div class="alphabet-main">
-        <div class="alphabet-name">
-          ${item.pronunciation}
-        </div>
+        <div class="alphabet-name">${item.pronunciation}</div>
         <button
           class="alphabet-word"
           onclick="alphabetSpeakWord('${item.word}')">
@@ -81,33 +72,26 @@ function renderAlphabet(){
 }
 
 /*
- * Произносим именно название буквы.
- * Например: A → «эй», B → «би».
+ * Проигрываем настоящую запись буквы.
+ * Один Audio-объект переиспользуется, чтобы записи не накладывались.
  */
-/*
- * Для букв не передаём в TTS одиночный символ:
- * некоторые телефоны произносят "B" как "capital B".
- * Используем обычные английские слова-названия букв.
- */
-const LETTER_SPEECH = {
-  A:'ay', B:'bee', C:'see', D:'dee', E:'ee', F:'ef', G:'gee',
-  H:'aitch', I:'eye', J:'jay', K:'kay', L:'el', M:'em', N:'en',
-  O:'oh', P:'pee', Q:'cue', R:'ar', S:'ess', T:'tee', U:'you',
-  V:'vee', W:'double you', X:'ex', Y:'why', Z:'zed'
-};
+let alphabetAudio = null;
 
-function alphabetSpeakLetter(letter){
+function alphabetPlayLetter(letter){
   const upper = String(letter).toUpperCase();
+  const src = `./audio/alphabet/${upper}.mp3`;
 
-  // Тест: передаём мобильному TTS обычное английское слово,
-  // которое читается как название буквы.
-  const speech = LETTER_SPEECH[upper] || upper.toLowerCase();
-  speakEN(speech);
+  if(alphabetAudio){
+    alphabetAudio.pause();
+    alphabetAudio.currentTime = 0;
+  }
+
+  alphabetAudio = new Audio(src);
+  alphabetAudio.preload = 'auto';
+  alphabetAudio.play().catch(() => {});
 }
 
-/*
- * Произносим пример слова.
- */
+/* Пример слова оставляем на обычном TTS. */
 function alphabetSpeakWord(word){
   speakEN(word);
 }
