@@ -1023,16 +1023,56 @@ function updateCount(inputId, countId, max){
 }
 
 let voices = [];
-function loadVoices(){ voices = window.speechSynthesis ? speechSynthesis.getVoices() : []; }
-if('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+
+/*
+ * Загружаем доступные голоса устройства.
+ * На телефонах список голосов может появляться не сразу.
+ */
+function loadVoices(){
+  voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+}
+
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+/*
+ * Выбираем английский голос аккуратно:
+ * 1. британский en-GB;
+ * 2. американский en-US;
+ * 3. любой английский en.
+ *
+ * Это важно для телефонов, где набор системных голосов
+ * отличается от компьютера.
+ */
+function getEnglishVoice(){
+  if(!voices.length) loadVoices();
+
+  return voices.find(v=>/^en[-_]GB$/i.test(v.lang))
+      || voices.find(v=>/^en[-_]US$/i.test(v.lang))
+      || voices.find(v=>/^en[-_]/i.test(v.lang))
+      || voices.find(v=>/^en$/i.test(v.lang))
+      || null;
+}
+
 function speakEN(text){
   if(!('speechSynthesis' in window) || !text) return;
+
   try{
     speechSynthesis.cancel();
+
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-GB'; u.rate = 0.85; u.pitch = 1;
-    const v = voices.find(v=>/en[-_]GB/i.test(v.lang)) || voices.find(v=>/^en/i.test(v.lang));
-    if(v) u.voice = v;
+    u.lang = 'en-GB';
+    u.rate = 0.9;
+    u.pitch = 1;
+
+    const v = getEnglishVoice();
+    if(v){
+      u.voice = v;
+      u.lang = v.lang;
+    }
+
     speechSynthesis.speak(u);
   }catch(e){}
 }
