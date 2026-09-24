@@ -72,12 +72,48 @@ function numberRussian(n){
   return 'сто';
 }
 
+const NUMBER_PRONUNCIATION = {
+  1:['/wʌn/','уан'], 2:['/tuː/','ту'], 3:['/θriː/','сри'], 4:['/fɔːr/','фор'],
+  5:['/faɪv/','файв'], 6:['/sɪks/','сикс'], 7:['/ˈsevən/','сэвэн'], 8:['/eɪt/','эйт'],
+  9:['/naɪn/','найн'], 10:['/ten/','тэн'], 11:['/ɪˈlevən/','илэвэн'], 12:['/twelv/','твэлв'],
+  13:['/ˌθɜːrˈtiːn/','сёртин'], 14:['/ˌfɔːrˈtiːn/','фортин'], 15:['/ˌfɪfˈtiːn/','фифтин'],
+  16:['/ˌsɪksˈtiːn/','сикстин'], 17:['/ˌsevənˈtiːn/','сэвэнтин'], 18:['/ˌeɪˈtiːn/','эйтин'],
+  19:['/ˌnaɪnˈtiːn/','найнтин'],
+  20:['/ˈtwenti/','твэнти'], 30:['/ˈθɜːrti/','сёрти'], 40:['/ˈfɔːrti/','форти'],
+  50:['/ˈfɪfti/','фифти'], 60:['/ˈsɪksti/','сиксти'], 70:['/ˈsevənti/','сэвэнти'],
+  80:['/ˈeɪti/','эйти'], 90:['/ˈnaɪnti/','найнти'], 100:['/wʌn ˈhʌndrəd/','уан хандрэд']
+};
+
+const NUMBER_TENS_IPA = {
+  20:'/ˈtwenti/', 30:'/ˈθɜːrti/', 40:'/ˈfɔːrti/', 50:'/ˈfɪfti/',
+  60:'/ˈsɪksti/', 70:'/ˈsevənti/', 80:'/ˈeɪti/', 90:'/ˈnaɪnti/'
+};
+
+const NUMBER_TENS_RU = {
+  20:'твэнти', 30:'сёрти', 40:'форти', 50:'фифти',
+  60:'сиксти', 70:'сэвэнти', 80:'эйти', 90:'найнти'
+};
+
+function numberPronunciation(n){
+  if(NUMBER_PRONUNCIATION[n]) return {
+    ipa: NUMBER_PRONUNCIATION[n][0],
+    ru: NUMBER_PRONUNCIATION[n][1]
+  };
+  const tens = Math.floor(n / 10) * 10;
+  const ones = n % 10;
+  const one = NUMBER_PRONUNCIATION[ones];
+  return {
+    ipa: NUMBER_TENS_IPA[tens].slice(0,-1) + ' ' + one[0].replace(/^\//,''),
+    ru: NUMBER_TENS_RU[tens] + '-' + one[1]
+  };
+}
+
 const NUMBERS_DATA = Array.from({length:100}, (_, i) => {
   const number = i + 1;
   return {
     number,
     english: numberEnglish(number),
-    translation: numberRussian(number), pronunciation: numberRussian(number)
+    translation: numberRussian(number), pronunciation: numberPronunciation(number)
   };
 });
 
@@ -104,7 +140,7 @@ function renderNumbers(){
       <div class="number-value">${item.number}</div>
       <div class="number-main">
         <div class="number-english">${item.english}</div>
-        <div class="number-pronunciation">${item.pronunciation}</div>\n        <div class="number-translation">${item.translation}</div>
+        <div class="number-pronunciation">${item.pronunciation.ipa} — ${item.pronunciation.ru}</div>\n        <div class="number-translation">${item.translation}</div>
       </div>
       <button
         class="number-speak"
