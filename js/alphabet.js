@@ -99,11 +99,10 @@ const LETTER_SPEECH = {
 function alphabetSpeakLetter(letter){
   const upper = String(letter).toUpperCase();
 
-  // Передаём телефону строчную букву.
-  // На некоторых мобильных TTS заглавная A/B/C озвучивается как
-  // "capital A / capital B / capital C".
-  // На экране при этом буква остаётся заглавной.
-  speakEN(upper.toLowerCase());
+  // Тест: передаём мобильному TTS обычное английское слово,
+  // которое читается как название буквы.
+  const speech = LETTER_SPEECH[upper] || upper.toLowerCase();
+  speakEN(speech);
 }
 
 /*
