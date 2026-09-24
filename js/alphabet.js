@@ -2,8 +2,6 @@
  * ============================================================
  * АНГЛИЙСКИЙ АЛФАВИТ
  * ============================================================
- * Данные и логика раздела «Алфавит» вынесены в отдельный файл.
- *
  * Буквы воспроизводятся из MP3:
  *   ./audio/alphabet/A1.mp3 ... ./audio/alphabet/Z1.mp3
  *
@@ -12,32 +10,32 @@
  */
 
 const ALPHABET_DATA = [
-  { letter:'A', pronunciation:'эй',  word:'apple',      translation:'яблоко' },
-  { letter:'B', pronunciation:'би',  word:'ball',       translation:'мяч' },
-  { letter:'C', pronunciation:'си',  word:'cat',        translation:'кот' },
-  { letter:'D', pronunciation:'ди',  word:'dog',        translation:'собака' },
-  { letter:'E', pronunciation:'и',   word:'elephant',   translation:'слон' },
-  { letter:'F', pronunciation:'эф',  word:'fish',       translation:'рыба' },
-  { letter:'G', pronunciation:'джи', word:'girl',       translation:'девочка' },
-  { letter:'H', pronunciation:'эйч', word:'house',      translation:'дом' },
-  { letter:'I', pronunciation:'ай',  word:'ice cream',  translation:'мороженое' },
-  { letter:'J', pronunciation:'джей',word:'juice',      translation:'сок' },
-  { letter:'K', pronunciation:'кей', word:'kite',       translation:'воздушный змей' },
-  { letter:'L', pronunciation:'эл',  word:'lion',       translation:'лев' },
-  { letter:'M', pronunciation:'эм',  word:'monkey',     translation:'обезьяна' },
-  { letter:'N', pronunciation:'эн',  word:'nose',       translation:'нос' },
-  { letter:'O', pronunciation:'оу',  word:'orange',     translation:'апельсин' },
-  { letter:'P', pronunciation:'пи',  word:'pencil',     translation:'карандаш' },
-  { letter:'Q', pronunciation:'кью', word:'queen',      translation:'королева' },
-  { letter:'R', pronunciation:'ар',  word:'rabbit',     translation:'кролик' },
-  { letter:'S', pronunciation:'эс',  word:'sun',        translation:'солнце' },
-  { letter:'T', pronunciation:'ти',  word:'tiger',      translation:'тигр' },
-  { letter:'U', pronunciation:'ю',   word:'umbrella',   translation:'зонт' },
-  { letter:'V', pronunciation:'ви',  word:'van',        translation:'фургон' },
-  { letter:'W', pronunciation:'дабл-ю', word:'window', translation:'окно' },
-  { letter:'X', pronunciation:'экс', word:'xylophone',  translation:'ксилофон' },
-  { letter:'Y', pronunciation:'уай', word:'yellow',     translation:'жёлтый' },
-  { letter:'Z', pronunciation:'зед', word:'zebra',      translation:'зебра' }
+  { letter:'A', pronunciation:'/eɪ/ — эй',          word:'apple',      translation:'яблоко' },
+  { letter:'B', pronunciation:'/biː/ — би',          word:'ball',       translation:'мяч' },
+  { letter:'C', pronunciation:'/siː/ — си',          word:'cat',        translation:'кот' },
+  { letter:'D', pronunciation:'/diː/ — ди',          word:'dog',        translation:'собака' },
+  { letter:'E', pronunciation:'/iː/ — и',            word:'elephant',   translation:'слон' },
+  { letter:'F', pronunciation:'/ɛf/ — эф',            word:'fish',       translation:'рыба' },
+  { letter:'G', pronunciation:'/dʒiː/ — джи',         word:'girl',       translation:'девочка' },
+  { letter:'H', pronunciation:'/eɪtʃ/ — эйч',         word:'house',      translation:'дом' },
+  { letter:'I', pronunciation:'/aɪ/ — ай',            word:'ice cream',  translation:'мороженое' },
+  { letter:'J', pronunciation:'/dʒeɪ/ — джей',        word:'juice',      translation:'сок' },
+  { letter:'K', pronunciation:'/keɪ/ — кей',          word:'kite',       translation:'воздушный змей' },
+  { letter:'L', pronunciation:'/ɛl/ — эл',            word:'lion',       translation:'лев' },
+  { letter:'M', pronunciation:'/ɛm/ — эм',            word:'monkey',     translation:'обезьяна' },
+  { letter:'N', pronunciation:'/ɛn/ — эн',            word:'nose',       translation:'нос' },
+  { letter:'O', pronunciation:'/oʊ/ — оу',            word:'orange',     translation:'апельсин' },
+  { letter:'P', pronunciation:'/piː/ — пи',           word:'pencil',     translation:'карандаш' },
+  { letter:'Q', pronunciation:'/kjuː/ — кью',         word:'queen',      translation:'королева' },
+  { letter:'R', pronunciation:'/ɑːr/ — ар',            word:'rabbit',     translation:'кролик' },
+  { letter:'S', pronunciation:'/ɛs/ — эс',            word:'sun',        translation:'солнце' },
+  { letter:'T', pronunciation:'/tiː/ — ти',           word:'tiger',      translation:'тигр' },
+  { letter:'U', pronunciation:'/juː/ — ю',            word:'umbrella',   translation:'зонт' },
+  { letter:'V', pronunciation:'/viː/ — ви',           word:'van',        translation:'фургон' },
+  { letter:'W', pronunciation:'/ˈdʌbəl.juː/ — дабл-ю', word:'window', translation:'окно' },
+  { letter:'X', pronunciation:'/ɛks/ — экс',          word:'xylophone',  translation:'ксилофон' },
+  { letter:'Y', pronunciation:'/waɪ/ — уай',          word:'yellow',     translation:'жёлтый' },
+  { letter:'Z', pronunciation:'/zed/ — зед',          word:'zebra',      translation:'зебра' }
 ];
 
 /* Рисуем карточки алфавита. */
@@ -76,7 +74,13 @@ let alphabetAudio = null;
 
 function alphabetPlayLetter(letter){
   const upper = String(letter).toUpperCase();
-  const src = `./audio/alphabet/${upper}1.mp3`;
+
+  /*
+   * Сейчас файл L загружен как l1.mp3.
+   * Поддерживаем это имя, чтобы L уже работала.
+   */
+  const fileName = upper === 'L' ? 'l1.mp3' : `${upper}1.mp3`;
+  const src = `./audio/alphabet/${fileName}`;
 
   if(alphabetAudio){
     alphabetAudio.pause();
