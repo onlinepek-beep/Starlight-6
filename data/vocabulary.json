@@ -10422,5 +10422,29 @@
     "english": "zebra crossing",
     "partOfSpeech": "(wd c)",
     "translation": "пешеходный переход"
+  },
+  {
+    "id": 1304,
+    "letter": "T",
+    "type": "PH",
+    "english": "types of homes",
+    "partOfSpeech": "(phr)",
+    "translation": "типы домов"
+  },
+  {
+    "id": 1305,
+    "letter": "R",
+    "type": "W",
+    "english": "rooms",
+    "partOfSpeech": "(n)",
+    "translation": "комнаты"
+  },
+  {
+    "id": 1306,
+    "letter": "O",
+    "type": "PH",
+    "english": "other features",
+    "partOfSpeech": "(phr)",
+    "translation": "другие особенности"
   }
 ]
