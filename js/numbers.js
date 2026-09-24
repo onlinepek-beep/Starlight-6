@@ -77,7 +77,7 @@ const NUMBERS_DATA = Array.from({length:100}, (_, i) => {
   return {
     number,
     english: numberEnglish(number),
-    translation: numberRussian(number)
+    translation: numberRussian(number), pronunciation: numberRussian(number)
   };
 });
 
@@ -104,7 +104,7 @@ function renderNumbers(){
       <div class="number-value">${item.number}</div>
       <div class="number-main">
         <div class="number-english">${item.english}</div>
-        <div class="number-translation">${item.translation}</div>
+        <div class="number-pronunciation">${item.pronunciation}</div>\n        <div class="number-translation">${item.translation}</div>
       </div>
       <button
         class="number-speak"
