@@ -515,6 +515,112 @@
   .tabbar .ico svg{ width:100%; height:100%; display:block; }
   .tabbar .label{ display:block; line-height:1; height:12px; white-space:nowrap; }
 
+  /* ===== АНГЛИЙСКИЙ АЛФАВИТ ===== */
+  .alphabet-intro{
+    text-align:center;
+    padding:18px 16px;
+  }
+  .alphabet-intro-title{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-0.3px;
+    margin-bottom:6px;
+  }
+  .alphabet-intro-text{
+    color:var(--ink2);
+    font-size:15px;
+    line-height:1.45;
+  }
+  .alphabet-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .alphabet-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--card);
+    border-radius:var(--radius-card);
+    padding:10px 12px;
+    box-shadow:0 1px 3px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.2);
+  }
+  .alphabet-letter{
+    width:68px;
+    min-width:68px;
+    height:68px;
+    border-radius:16px;
+    background:var(--blue);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+    box-shadow:0 5px 16px rgba(10,132,255,.25);
+  }
+  .alphabet-letter:active{
+    transform:scale(.94);
+    background:var(--blue-d);
+  }
+  .alphabet-upper{
+    font-size:27px;
+    font-weight:800;
+  }
+  .alphabet-lower{
+    font-size:17px;
+    font-weight:600;
+    margin-top:4px;
+    opacity:.9;
+  }
+  .alphabet-main{
+    flex:1;
+    min-width:0;
+  }
+  .alphabet-name{
+    color:var(--ink2);
+    font-size:14px;
+    font-weight:600;
+    margin:0 0 3px;
+  }
+  .alphabet-word{
+    width:100%;
+    min-height:44px;
+    padding:4px 0;
+    background:transparent;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    text-align:left;
+  }
+  .alphabet-word:active{
+    opacity:.6;
+  }
+  .alphabet-word b{
+    display:block;
+    font-size:19px;
+    font-weight:700;
+  }
+  .alphabet-translation{
+    display:block;
+    color:var(--ink2);
+    font-size:14px;
+    margin-top:2px;
+  }
+  .alphabet-speak{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    border-radius:50%;
+    background:var(--card2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+  }
+
   /* ===== РЕДАКТОР ===== */
   .chosen-list{display:flex; flex-direction:column; gap:8px; max-height:340px; overflow:auto; margin-top:8px;}
   .chosen-item{
@@ -645,6 +751,24 @@
 
   </div>
 
+
+  <div id="screen-alphabet" class="hidden">
+    <div class="topbar">
+      <button class="crumb-link" onclick="go('menu')">‹ Главная</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current">Алфавит</span>
+    </div>
+
+    <div class="card alphabet-intro">
+      <div class="alphabet-intro-title">Изучаем английский алфавит</div>
+      <div class="alphabet-intro-text">
+        Нажми на букву, чтобы услышать её название.<br>
+        Нажми на слово, чтобы услышать пример.
+      </div>
+    </div>
+
+    <div id="alphabet-list" class="alphabet-list"></div>
+  </div>
 
   <div id="screen-vocab" class="hidden">
     <div class="topbar">
@@ -963,7 +1087,7 @@ function reconcileProgress(lessonId, newWordIds){
 }
 
 function show(id){
-  ['screen-menu','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
+  ['screen-menu','screen-alphabet','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
     $(x).classList.toggle('hidden', x!==id);
   });
   $('tabbar').style.display = 'flex';
