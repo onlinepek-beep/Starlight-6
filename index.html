@@ -56,7 +56,7 @@
     touch-action:manipulation;
   }
   @media (max-width:380px){
-    .large-title{font-size:19px; letter-spacing:-0.5px;}
+    .large-title{font-size:18px; letter-spacing:-0.4px;}
   }
   @media (min-width:381px) and (max-width:520px){
     .large-title{font-size:22px; letter-spacing:-0.6px;}
@@ -761,7 +761,7 @@
 <div class="app">
 
    <div id="screen-menu" class="screen-anim">
-    <div class="large-title" id="main-title">Starlight — английский язык</div>
+    <div class="large-title" id="main-title" onclick="onTitleTap()">Starlight — английский язык</div>
 
     <div class="card-list">
       <div class="row" onclick="go('lessons')" style="cursor:pointer;">
