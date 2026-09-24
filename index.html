@@ -55,11 +55,15 @@
     white-space:nowrap;
     touch-action:manipulation;
   }
-  @media (max-width:380px){
-    .large-title{font-size:18px; letter-spacing:-0.4px;}
-  }
-  @media (min-width:381px) and (max-width:520px){
-    .large-title{font-size:22px; letter-spacing:-0.6px;}
+  @media (max-width:520px){
+    .large-title{
+      font-size:16px;
+      letter-spacing:-0.35px;
+      white-space:nowrap;
+      display:block;
+      width:max-content;
+      max-width:100%;
+    }
   }
 
   /* ===== ВЕРХНЕЕ МЕНЮ — ЦЕПОЧКА ===== */
