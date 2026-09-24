@@ -107,6 +107,7 @@
   }
   .card.tappable{ cursor:pointer; }
   /* ===== ПОДСКАЗКА НА ГЛАВНОЙ ===== */
+  #screen-menu{position:relative; z-index:10; pointer-events:auto;}
   .help-card{
     background:var(--card);
     border-radius:var(--radius-card);
@@ -705,6 +706,7 @@
     opacity:0; pointer-events:none;
     transition:opacity .3s, transform .3s;
   }
+  .easteregg-toast{pointer-events:none;}
   .easteregg-toast.show{opacity:1; transform:translate(-50%,-50%) scale(1); pointer-events:auto;}
   .easteregg-toast .eg-emoji{font-size:56px; line-height:1; margin-bottom:10px;}
   .easteregg-toast .eg-title{font-size:22px; font-weight:800; margin-bottom:6px;}
