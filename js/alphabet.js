@@ -84,8 +84,21 @@ function renderAlphabet(){
  * Произносим именно название буквы.
  * Например: A → «эй», B → «би».
  */
+/*
+ * Для букв не передаём в TTS одиночный символ:
+ * некоторые телефоны произносят "B" как "capital B".
+ * Используем обычные английские слова-названия букв.
+ */
+const LETTER_SPEECH = {
+  A:'ay', B:'bee', C:'see', D:'dee', E:'ee', F:'ef', G:'gee',
+  H:'aitch', I:'eye', J:'jay', K:'kay', L:'el', M:'em', N:'en',
+  O:'oh', P:'pee', Q:'cue', R:'ar', S:'ess', T:'tee', U:'you',
+  V:'vee', W:'double you', X:'ex', Y:'why', Z:'zed'
+};
+
 function alphabetSpeakLetter(letter){
-  speakEN(letter);
+  const speech = LETTER_SPEECH[String(letter).toUpperCase()] || letter;
+  speakEN(speech);
 }
 
 /*
