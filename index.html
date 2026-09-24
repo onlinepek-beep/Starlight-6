@@ -106,57 +106,6 @@
                box-shadow .15s ease;
   }
   .card.tappable{ cursor:pointer; }
-  /* ===== ПОДСКАЗКА НА ГЛАВНОЙ ===== */
-  .help-card{
-    background:var(--card);
-    border-radius:var(--radius-card);
-    margin-bottom:12px;
-    overflow:hidden;
-    box-shadow:0 1px 3px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.25);
-  }
-  .help-toggle{
-    width:100%;
-    min-height:50px;
-    padding:14px 16px;
-    background:transparent;
-    color:var(--ink);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    text-align:left;
-    font-size:16px;
-    font-weight:700;
-  }
-  .help-toggle .help-arrow{
-    color:var(--ink2);
-    font-size:20px;
-    transition:transform .25s ease;
-  }
-  .help-card.open .help-arrow{ transform:rotate(180deg); }
-  .help-body{
-    display:grid;
-    grid-template-rows:0fr;
-    transition:grid-template-rows .28s ease;
-  }
-  .help-card.open .help-body{ grid-template-rows:1fr; }
-  .help-inner{
-    min-height:0;
-    overflow:hidden;
-    padding:0 16px;
-  }
-  .help-card.open .help-inner{ padding-bottom:16px; }
-  .help-step{
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-    padding:11px 0;
-    border-top:1px solid var(--line);
-  }
-  .help-icon{font-size:21px; min-width:28px; text-align:center;}
-  .help-title{font-weight:600; font-size:15px;}
-  .help-text{color:var(--ink2); font-size:13px; margin-top:3px; line-height:1.45;}
-
   .card.tappable:active{
     transform:scale(.985);
     box-shadow:
@@ -847,44 +796,56 @@
       </div>
     </div>
 
-    <div class="help-card" id="help-card">
-      <button class="help-toggle" type="button" onclick="toggleHelp()">
-        <span>💡 Как учить английский?</span>
-        <span class="help-arrow">⌄</span>
-      </button>
+    <div class="card tappable">
+      <div style="font-size:17px; font-weight:800; letter-spacing:-0.3px; margin-bottom:8px;">
+        Что это?
+      </div>
+      <div class="muted" style="font-size:14px; line-height:1.5; margin-bottom:18px;">
+        Это приложение для тренировки английских слов из учебника Starlight 6. Здесь можно собирать слова в уроки и учить их шаг за шагом.
+      </div>
 
-      <div class="help-body">
-        <div class="help-inner">
-          <div class="help-step">
-            <div class="help-icon">📚</div>
-            <div>
-              <div class="help-title">Создай урок</div>
-              <div class="help-text">Выбери тему и добавь слова.</div>
-            </div>
+      <div style="font-size:15px; font-weight:700; margin-bottom:14px;">
+        Как учить слова?
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">📚</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Создай урок</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
+            Назови по теме или как задали — например, «Слова стр. 14». Добавь слова, которые надо выучить.
           </div>
+        </div>
+      </div>
 
-          <div class="help-step">
-            <div class="help-icon">🎮</div>
-            <div>
-              <div class="help-title">Пройди упражнения</div>
-              <div class="help-text">Слушай, играй, собирай слова из букв.</div>
-            </div>
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">🎮</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Пройди упражнения</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
+            Слушай, играй, собирай слова из букв.
           </div>
+        </div>
+      </div>
 
-          <div class="help-step">
-            <div class="help-icon">🎧</div>
-            <div>
-              <div class="help-title">Напиши диктант</div>
-              <div class="help-text">Проверь, что запомнил слова.</div>
-            </div>
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">🎧</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Напиши диктант</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.5;">
+            Напиши все слова по памяти.<br>
+            Получилось — слова выучены! 🎉<br>
+            Ошибся — слово вернётся, попробуешь ещё.
           </div>
+        </div>
+      </div>
 
-          <div class="help-step">
-            <div class="help-icon">📖</div>
-            <div>
-              <div class="help-title">Открой словарь</div>
-              <div class="help-text">Повторяй слова и фразы.</div>
-            </div>
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <div style="font-size:22px; min-width:28px;">📖</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Открой Словарь</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">
+            Там все слова за год. Слушай и повторяй.
           </div>
         </div>
       </div>
@@ -2236,13 +2197,7 @@ function finishExercise(complete){
  * приложения, потому что уроки и упражнения используют WORDS.
  * ============================================================
  */
-async function toggleHelp(){
-  const card = $('help-card');
-  if(!card) return;
-  card.classList.toggle('open');
-}
-
-function boot(){
+async function boot(){
   try{
     // Загружаем словарь из data/vocabulary.json.
     await loadVocabulary();
