@@ -44,11 +44,16 @@
   }
 
   .large-title{
-    font-size:34px; font-weight:800; letter-spacing:-0.6px;
+    font-size:clamp(23px, 7vw, 34px);
+    font-weight:800;
+    letter-spacing:-0.8px;
     margin:14px 4px 18px;
-    cursor:pointer; user-select:none; -webkit-user-select:none;
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
     display:inline-block;
-    touch-action: manipulation;
+    white-space:nowrap;
+    touch-action:manipulation;
   }
 
   /* ===== ВЕРХНЕЕ МЕНЮ — ЦЕПОЧКА ===== */
