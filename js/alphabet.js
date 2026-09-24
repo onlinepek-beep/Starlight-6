@@ -97,7 +97,17 @@ const LETTER_SPEECH = {
 };
 
 function alphabetSpeakLetter(letter){
-  const speech = LETTER_SPEECH[String(letter).toUpperCase()] || letter;
+  const upper = String(letter).toUpperCase();
+  const speech = LETTER_SPEECH[upper] || upper;
+
+  // На мобильных устройствах одиночное название буквы
+  // иногда озвучивается как "capital A".
+  // Для теста A используем фразу с контекстом.
+  if(upper === 'A'){
+    speakEN('the letter A');
+    return;
+  }
+
   speakEN(speech);
 }
 
