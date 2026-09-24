@@ -1113,6 +1113,7 @@ function show(id){
 function go(screen){
   state.screen = screen; saveState();
   if(screen==='menu') show('screen-menu');
+  else if(screen==='alphabet'){ show('screen-alphabet'); renderAlphabet(); }
   else if(screen==='vocab'){ show('screen-vocab'); renderVocab(); }
   else if(screen==='lessons'){ show('screen-lessons'); renderLessons(); }
 }
