@@ -98,17 +98,12 @@ const LETTER_SPEECH = {
 
 function alphabetSpeakLetter(letter){
   const upper = String(letter).toUpperCase();
-  const speech = LETTER_SPEECH[upper] || upper;
 
-  // На мобильных устройствах одиночное название буквы
-  // иногда озвучивается как "capital A".
-  // Для теста A используем фразу с контекстом.
-  if(upper === 'A'){
-    speakEN('the letter A');
-    return;
-  }
-
-  speakEN(speech);
+  // Передаём телефону строчную букву.
+  // На некоторых мобильных TTS заглавная A/B/C озвучивается как
+  // "capital A / capital B / capital C".
+  // На экране при этом буква остаётся заглавной.
+  speakEN(upper.toLowerCase());
 }
 
 /*
