@@ -6,7 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<title>Starlight 6</title>
+<title>Starlight — английский язык</title>
+<link rel="icon" href="./assets/app-icon.svg" type="image/svg+xml">
 <style>
   :root{
     --bg:#000000;
@@ -43,6 +44,23 @@
     padding: calc(28px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
   }
 
+  .brand-main{
+    width:min(430px, 88vw);
+    height:auto;
+    display:block;
+    margin:8px auto 18px;
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:manipulation;
+  }
+  .topbar-brand{
+    width:30px;
+    height:30px;
+    flex:0 0 30px;
+    object-fit:contain;
+    display:block;
+  }
   .large-title{
     font-size:34px;
     font-weight:800;
@@ -765,7 +783,7 @@
 <div class="app">
 
    <div id="screen-menu" class="screen-anim">
-    <div class="large-title" id="main-title" onclick="onTitleTap()">Starlight — английский язык</div>
+    <img class="brand-main" id="main-title" src="./assets/logo-starlight.svg" alt="ST★RLIGHT — английский язык" onclick="onTitleTap()">
 
     <div class="card-list">
       <div class="row" onclick="go('lessons')" style="cursor:pointer;">
@@ -830,7 +848,7 @@
 
 
   <div id="screen-alphabet" class="hidden">
-    <div class="topbar">
+    <div class="topbar"><img class="topbar-brand" src="./assets/logo-circle.svg" alt="Starlight">
       <button class="crumb-link" onclick="go('menu')">‹ Главная</button>
       <span class="crumb-sep">·</span>
       <span class="crumb-current">Алфавит</span>
