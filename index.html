@@ -1274,7 +1274,7 @@ function reconcileProgress(lessonId, newWordIds){
 }
 
 function show(id){
-  ['screen-menu','screen-alphabet','screen-numbers','screen-vocab','screen-lessons','screen-editor','screen-lesson'].forEach(x=>{
+  ['screen-menu','screen-alphabet','screen-numbers','screen-vocab','screen-lessons','screen-editor','screen-lesson','screen-help'].forEach(x=>{
     $(x).classList.toggle('hidden', x!==id);
   });
   $('tabbar').style.display = 'flex';
