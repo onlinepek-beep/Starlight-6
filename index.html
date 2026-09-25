@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
-<title>Starlight — английский язык</title>
+<title>Starlight 6</title>
 <style>
   :root{
     --bg:#000000;
@@ -42,6 +42,7 @@
     max-width:720px; margin:0 auto;
     padding: calc(28px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
   }
+
   .large-title{
     font-size:34px;
     font-weight:800;
@@ -764,7 +765,7 @@
 <div class="app">
 
    <div id="screen-menu" class="screen-anim">
-    <img class="brand-main" id="main-title" src="./assets/logo-starlight.webp" alt="ST★RLIGHT — английский язык" onclick="onTitleTap()">
+    <div class="large-title" id="main-title" onclick="onTitleTap()">Starlight — английский язык</div>
 
     <div class="card-list">
       <div class="row" onclick="go('lessons')" style="cursor:pointer;">
