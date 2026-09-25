@@ -811,11 +811,18 @@
       </div>
     </div>
 
-    <div class="card tappable">
-      <div style="font-size:17px; font-weight:800; letter-spacing:-0.3px; margin-bottom:8px;">
-        Что это?
+    <div class="card-list">
+      <div class="row" onclick="go('help')" style="cursor:pointer;">
+        <div class="lesson-badge cur">💡</div>
+        <div style="flex:1;">
+          <div class="lesson-name">Помощь</div>
+          <div class="lesson-progress">Как учить слова и пользоваться приложением</div>
+        </div>
+        <span class="chev">›</span>
       </div>
-      <div class="muted" style="font-size:14px; line-height:1.5; margin-bottom:18px;">
+    </div>
+
+    <div class="muted" style="font-size:14px; line-height:1.5; margin-bottom:18px;">
         Это приложение для тренировки английских слов из учебника Starlight 6. Здесь можно собирать слова в уроки и учить их шаг за шагом.
       </div>
 
@@ -972,6 +979,54 @@
       </div>
       <input type="search" id="editor-search" placeholder="Поиск…" autocomplete="off" style="margin-top:10px;">
       <div class="chosen-list" id="editor-results" style="max-height:400px;"></div>
+    </div>
+  </div>
+
+  <div id="screen-help" class="hidden">
+    <div class="topbar">
+      <button class="crumb-link" onclick="go('menu')">‹ Назад</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current">Помощь</span>
+    </div>
+
+    <div class="card">
+      <div class="muted" style="font-size:14px; line-height:1.5; margin-bottom:18px;">
+        Это приложение для тренировки английских слов из учебника Starlight 6. Здесь можно собирать слова в уроки и учить их шаг за шагом.
+      </div>
+
+      <div style="font-size:15px; font-weight:700; margin-bottom:14px;">Как учить слова?</div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">📚</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Создай урок</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">Назови по теме или как задали — например, «Слова стр. 14». Добавь слова, которые надо выучить.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">🎮</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Пройди упражнения</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">Слушай, играй, собирай слова из букв.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;">
+        <div style="font-size:22px; min-width:28px;">🎧</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Напиши диктант</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.5;">Напиши все слова по памяти.<br>Получилось — слова выучены! 🎉<br>Ошибся — слово вернётся, попробуешь ещё.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <div style="font-size:22px; min-width:28px;">📖</div>
+        <div style="flex:1;">
+          <div style="font-weight:600; font-size:15px;">Открой Словарь</div>
+          <div class="muted" style="font-size:13px; margin-top:4px; line-height:1.45;">Там все слова за год. Слушай и повторяй.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1285,7 +1340,7 @@ function go(screen){
   else if(screen==='alphabet'){ show('screen-alphabet'); renderAlphabet(); }
   else if(screen==='numbers'){ show('screen-numbers'); renderNumbers(); }
   else if(screen==='vocab'){ show('screen-vocab'); renderVocab(); }
-  else if(screen==='lessons'){ show('screen-lessons'); renderLessons(); }
+  else if(screen==='lessons'){ show('screen-lessons'); renderLessons(); }\n  else if(screen==='help'){ show('screen-help'); }
 }
 
 /* Тап 5 раз по "Starlight 6" → фейерверк */
