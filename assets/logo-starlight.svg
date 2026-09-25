@@ -1,1 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 251"><defs><linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#bfe8ff"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff36a"/><stop offset=".55" stop-color="#ffd21c"/><stop offset="1" stop-color="#ff9f00"/></linearGradient></defs><g stroke="#09245f" stroke-width="18" stroke-linejoin="round" paint-order="stroke"><text x="24" y="178" font-family="Arial,Helvetica,sans-serif" font-size="154" font-weight="900" fill="url(#t)">ST</text><polygon points="320,30 351,101 428,106 369,154 387,229 320,187 253,229 271,154 212,106 289,101" fill="url(#g)"/><text x="405" y="178" font-family="Arial,Helvetica,sans-serif" font-size="154" font-weight="900" fill="url(#t)">RLIGHT</text></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1024">
+<defs>
+  <linearGradient id="ice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".48" stop-color="#dff5ff"/><stop offset="1" stop-color="#12a9ff"/></linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#18bfff"/><stop offset=".45" stop-color="#0868ff"/><stop offset="1" stop-color="#03195c"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff45a"/><stop offset=".5" stop-color="#ffc400"/><stop offset="1" stop-color="#ff7200"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="shadow"><feGaussianBlur stdDeviation="7"/></filter>
+</defs>
+<rect width="2048" height="1024" fill="none"/>
+<g text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900">
+  <text x="1024" y="470" font-size="340" fill="#00104a" stroke="#00104a" stroke-width="72" stroke-linejoin="round" filter="url(#shadow)">ST★RLIGHT</text>
+  <text x="1024" y="450" font-size="340" fill="url(#ice)" stroke="#06318f" stroke-width="42" stroke-linejoin="round" paint-order="stroke">ST★RLIGHT</text>
+  <text x="1024" y="450" font-size="340" fill="none" stroke="#65d8ff" stroke-width="10" opacity=".9">ST★RLIGHT</text>
+  <text x="1024" y="455" font-size="340" fill="none" stroke="#fff" stroke-width="5" opacity=".75">ST★RLIGHT</text>
+  <text x="1024" y="790" font-size="132" fill="url(#ice)" stroke="#06318f" stroke-width="24" paint-order="stroke">АНГЛИЙСКИЙ ЯЗЫК</text>
+  <path d="M470 845 H1578" stroke="#12a9ff" stroke-width="12" stroke-linecap="round" filter="url(#glow)"/>
+</g>
+<!-- gold star overlay -->
+<polygon points="790,70 835,220 995,220 866,312 915,465 790,372 665,465 714,312 585,220 745,220" fill="url(#gold)" stroke="#ff8b00" stroke-width="18" stroke-linejoin="round"/>
+<polygon points="790,92 828,230 956,230 852,302" fill="#fff" opacity=".28"/>
+<g fill="#fff" filter="url(#glow)">
+ <circle cx="350" cy="175" r="7"/><circle cx="1710" cy="205" r="7"/><circle cx="1510" cy="120" r="6"/>
+</g>
+</svg>
