@@ -216,7 +216,26 @@
   .word .en{font-weight:700; font-size:17px;}
   .word .pos{color:var(--ink2); font-size:13px; margin-left:6px;}
   .word .ru{color:var(--ink2); font-size:15px; margin-top:2px;}
+  .word .transcription{color:var(--ink3); font-size:13px; margin-top:2px;}
+  .word .source-badge{display:inline-block; margin-top:6px; padding:3px 8px; border-radius:999px; background:rgba(10,132,255,.14); color:var(--blue); font-size:12px; font-weight:600;}
+  .word .source-badge.library{background:rgba(10,132,255,.14); color:var(--blue);}
+  .word .source-badge.user{background:rgba(191,90,242,.14); color:var(--purple);}
   .word .txt{flex:1; min-width:0;}
+  .vocab-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px;}
+  .vocab-tab{background:var(--card2); color:var(--ink); border-radius:12px; padding:11px 8px; font-size:13px; font-weight:600; min-width:0; line-height:1.2;}
+  .vocab-tab.active{background:var(--blue); color:#fff;}
+  .vocab-tab.user.active{background:var(--purple);}
+  .vocab-tab small{display:block; opacity:.72; font-size:11px; margin-top:3px; font-weight:500;}
+  .vocab-manage{display:flex; flex-direction:column; gap:10px;}
+  .vocab-manage-title{font-weight:700; font-size:17px;}
+  .vocab-manage-sub{color:var(--ink2); font-size:13px;}
+  .vocab-actions{display:flex; gap:8px; flex-wrap:wrap;}
+  .vocab-actions .btn{flex:1; min-width:130px;}
+  .word-actions{display:flex; gap:6px; margin-top:8px;}
+  .word-action{background:var(--card2); color:var(--ink2); border-radius:10px; min-width:38px; height:36px; font-size:16px;}
+  .word-action.danger{color:var(--red);}
+  .vocab-form-actions{display:flex; gap:8px;}
+  .vocab-form-actions .btn{flex:1;}
   .speak{
     background:var(--card2); border-radius:50%; width:44px; height:44px;
     min-width:44px; font-size:18px; color:var(--blue);
@@ -318,6 +337,35 @@
   .lesson-edit-btn:active{
     background:var(--card3);
     transform:scale(.92);
+  }
+  .lesson-share-btn{
+    width:36px;
+    height:36px;
+    min-width:36px;
+    min-height:36px;
+    padding:0;
+    font-size:15px;
+    border-radius:10px;
+    background:var(--card2);
+    color:var(--ink2);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .lesson-share-btn:active{
+    background:var(--card3);
+    transform:scale(.92);
+  }
+
+  .lessons-toolbar{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .lessons-toolbar .btn{
+    flex:1;
+    min-height:48px;
+    font-size:15px;
   }
 
   .muted{color:var(--ink2); font-size:15px;}
@@ -451,6 +499,19 @@
   .speak-big:active{transform:scale(.94); background:var(--blue-d);}
   .listen-word{font-size:34px; font-weight:800; margin:8px 0 6px; letter-spacing:-0.6px;}
   .listen-tr{font-size:18px; color:var(--ink2); margin-bottom:18px;}
+  .listen-list{overflow:hidden;}
+  .listen-item{display:flex; align-items:center; gap:12px; padding:13px 4px; border-bottom:1px solid var(--line); border-radius:10px; transition:background .12s ease;}
+  .listen-item:last-child{border-bottom:none;}
+  .listen-item.active{background:rgba(10,132,255,.10);}
+  .listen-item.done{background:rgba(48,209,88,.07);}
+  .listen-item .speak{flex-shrink:0;}
+  .listen-item .listen-main{flex:1; min-width:0;}
+  .listen-item .listen-en{font-weight:700; font-size:17px;}
+  .listen-item .listen-pos{color:var(--ink2); font-size:12px; margin-left:6px;}
+  .listen-item .listen-ipa{color:var(--ink3); font-size:13px; margin-top:2px;}
+  .listen-item .listen-ru{color:var(--ink2); font-size:15px; margin-top:2px;}
+  .listen-item .listen-extra{color:var(--ink3); font-size:12px; margin-top:5px;}
+  .listen-item .listen-check{width:26px; min-width:26px; text-align:center; font-size:18px; color:var(--green);}
 
   #dict-input{font-size:20px; text-align:center; font-weight:600; letter-spacing:.3px;}
 
@@ -488,7 +549,7 @@
   @keyframes burst{0%{transform:translate(-50%,-50%) translate(0,0) scale(1); opacity:1;} 100%{transform:translate(-50%,-50%) translate(var(--bx), var(--by)) scale(0.4); opacity:0;}}
   @keyframes fall{0%{transform:translate(0,-20px) rotate(0deg); opacity:1;} 100%{transform:translate(var(--rx), 110vh) rotate(720deg); opacity:0.9;}}
   @keyframes slideUp{0%{opacity:0; transform:translateY(8px);} 100%{opacity:1; transform:translateY(0);}}
-  .screen-anim{animation:slideUp .28s ease-out;}
+  .screen-anim{animation:slideUp .28s cubic-bezier(.22,.61,.36,1); will-change:transform,opacity;}
 
   @keyframes staggerIn{
     0%{opacity:0; transform:translateY(10px);}
@@ -869,12 +930,47 @@
     <div class="topbar">
       <button class="crumb-link" onclick="go('menu')">‹ Главная</button>
       <span class="crumb-sep">·</span>
-      <span class="crumb-current">Словарь</span>
+      <span class="crumb-current">Словари</span>
     </div>
     <div class="card" style="padding:12px;">
-      <input type="search" id="vocab-search" placeholder="Поиск по английскому или русскому…" autocomplete="off">
+      <input type="search" id="vocab-search" placeholder="Поиск по двум словарям…" autocomplete="off">
+      <div class="vocab-tabs">
+        <button class="vocab-tab active" id="vocab-tab-all" onclick="setVocabSource('all')">Все<small id="vocab-tab-all-count">0</small></button>
+        <button class="vocab-tab" id="vocab-tab-library" onclick="setVocabSource('library')">📘 Библиотека<small id="vocab-tab-library-count">0</small></button>
+        <button class="vocab-tab user" id="vocab-tab-user" onclick="setVocabSource('user')">⭐ Мои слова<small id="vocab-tab-user-count">0</small></button>
+      </div>
       <div class="az" id="az-bar"></div>
     </div>
+
+    <div class="card hidden" id="user-word-tools">
+      <div class="vocab-manage-title" id="user-word-form-title">⭐ Мои слова</div>
+      <div class="vocab-manage-sub">Добавление и управление пользовательскими словами.</div>
+      <div class="stack" style="margin-top:10px;">
+        <input type="text" id="user-word-english" placeholder="English">
+        <input type="text" id="user-word-translation" placeholder="Перевод">
+        <input type="text" id="user-word-transcription" placeholder="Транскрипция, например /haʊs/">
+        <input type="text" id="user-word-russian-transcription" placeholder="Русская подсказка произношения">
+        <input type="text" id="user-word-pos" placeholder="Часть речи, например n / v / adj">
+        <div class="vocab-form-actions">
+          <button class="btn" id="user-word-save-btn" onclick="saveUserWordForm()">＋ Добавить</button>
+          <button class="btn sec hidden" id="user-word-cancel-btn" onclick="cancelUserWordEdit()">Отмена</button>
+        </div>
+      </div>
+      <div class="warn hidden" id="user-word-warn"></div>
+
+      <div class="sep"></div>
+      <div class="field-label">Добавить списком</div>
+      <div class="muted" style="margin-bottom:6px;">Формат: <b>house - дом</b><br>Можно расширить: <b>house - дом - /haʊs/ - хаус - n</b></div>
+      <textarea id="user-words-bulk" rows="5" style="width:100%;font-family:inherit;font-size:17px;padding:12px 14px;border:none;border-radius:12px;background:var(--card2);color:var(--ink);resize:vertical;" placeholder="house - дом&#10;book - книга"></textarea>
+      <div class="vocab-actions">
+        <button class="btn sec" onclick="addUserWordsBulk()">＋ Добавить список</button>
+        <button class="btn sec" onclick="openUserWordsFile()">📥 Импорт</button>
+        <button class="btn sec" onclick="downloadUserWords()">📤 Экспорт</button>
+      </div>
+      <div class="warn hidden" id="user-words-bulk-warn"></div>
+      <input type="file" id="user-words-file" accept=".json,application/json" style="display:none;">
+    </div>
+
     <div class="card" id="vocab-list"><div class="muted">Загрузка…</div></div>
     <div class="muted center" id="vocab-count" style="margin-top:6px;">…</div>
   </div>
@@ -886,6 +982,11 @@
       <span class="crumb-current">Уроки</span>
     </div>
     <button class="btn wide big" onclick="openLessonEditor(null)">＋ Создать урок</button>
+    <div class="lessons-toolbar">
+      <button class="btn sec" onclick="exportAllLessons()">📤 Экспорт всех</button>
+      <button class="btn sec" onclick="triggerImport()">📥 Импорт</button>
+    </div>
+    <input type="file" id="import-file" accept=".json,application/json" style="display:none;">
     <div id="lessons-list" class="stagger" style="margin-top:12px;"></div>
   </div>
 
@@ -926,7 +1027,7 @@
         <b>Добавить слова</b>
         <span class="muted" id="editor-found"></span>
       </div>
-      <input type="search" id="editor-search" placeholder="Поиск…" autocomplete="off" style="margin-top:10px;">
+      <input type="search" id="editor-search" placeholder="Напиши английское слово…" autocomplete="off" style="margin-top:10px;">
       <div class="chosen-list" id="editor-results" style="max-height:400px;"></div>
     </div>
   </div>
@@ -1060,68 +1161,139 @@
  * ============================================================
  * СЛОВАРЬ
  * ============================================================
- * Слова хранятся отдельно от основного HTML-файла:
- *   data/vocabulary.json
- *
- * Это позволяет добавлять и редактировать слова без изменения
- * большого файла index.html.
- *
- * Формат каждого слова:
- *   id            — уникальный идентификатор слова
- *   letter        — буква для алфавитного фильтра
- *   type          — тип записи
- *   english       — английское слово или выражение
- *   partOfSpeech  — часть речи
- *   translation   — перевод на русский
- *
- * Важно: ID слов используются уроками и сохранённым прогрессом.
- * Поэтому существующие ID нельзя менять без отдельной миграции.
- * ============================================================
  */
 
 async function loadVocabulary(){
-  /*
-   * Загружаем словарь относительно текущей страницы.
-   * На GitHub Pages файл будет находиться по адресу:
-   * /Starlight-6/data/vocabulary.json
-   */
-  const response = await fetch('./data/vocabulary.json', {
-    cache: 'no-cache'
-  });
-
-  if(!response.ok){
-    throw new Error('Не удалось загрузить data/vocabulary.json');
-  }
-
+  const response = await fetch('./data/vocabulary.json', { cache: 'no-cache' });
+  if(!response.ok){ throw new Error('Не удалось загрузить data/vocabulary.json'); }
   const vocabulary = await response.json();
-
-  /*
-   * Проверяем, что сервер действительно вернул массив.
-   * Если JSON повреждён или имеет неправильную структуру,
-   * приложение не продолжит работу с некорректными данными.
-   */
-  if(!Array.isArray(vocabulary)){
-    throw new Error('vocabulary.json должен содержать массив слов');
-  }
-
-  /*
-   * Сохраняем словарь в том же глобальном формате,
-   * который использовал старый код.
-   *
-   * Благодаря этому остальная часть приложения продолжает
-   * работать с WORDS и WORDS_BY_ID практически без изменений.
-   */
-  window.VOCAB_DATA = vocabulary;
+  if(!Array.isArray(vocabulary)){ throw new Error('vocabulary.json должен содержать массив слов'); }
+  window.VOCAB_DATA = normalizeVocabulary(vocabulary);
 }
 
-;
-</script>
+let USER_WORDS = [];
+const WORD_SOURCE = Object.freeze({ LIBRARY:'library', USER:'user' });
+const WORD_SOURCE_LABEL = Object.freeze({ library:'📘 Библиотека', user:'⭐ Мои слова' });
+function makeUserWordId(){ return 'user-' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function normalizePartOfSpeech(value){
+  const raw = String(value == null ? '' : value).trim();
+  return raw.replace(/^\((.*)\)$/,'$1');
+}
+function normalizeWord(raw, sourceOverride){
+  const w = raw && typeof raw === 'object' ? raw : {};
+  const english = String(w.english == null ? '' : w.english).trim();
+  return {
+    id: w.id != null ? w.id : makeUserWordId(),
+    english,
+    translation: String(w.translation == null ? '' : w.translation).trim(),
+    transcription: String(w.transcription == null ? '' : w.transcription).trim(),
+    russianTranscription: String(w.russianTranscription == null ? '' : w.russianTranscription).trim(),
+    partOfSpeech: normalizePartOfSpeech(w.partOfSpeech),
+    example: String(w.example == null ? '' : w.example).trim(),
+    exampleTranslation: String(w.exampleTranslation == null ? '' : w.exampleTranslation).trim(),
+    source: sourceOverride || (w.source === WORD_SOURCE.USER ? WORD_SOURCE.USER : WORD_SOURCE.LIBRARY),
+    sourceId: String(w.sourceId == null ? '' : w.sourceId).trim(),
+    topic: String(w.topic == null ? '' : w.topic).trim(),
+    unit: String(w.unit == null ? '' : w.unit).trim(),
+    letter: english.charAt(0).toUpperCase()
+  };
+}
+function normalizeVocabulary(vocabulary){ return vocabulary.map(w => normalizeWord(w, WORD_SOURCE.LIBRARY)); }
+function normalizeUserWords(vocabulary){ return vocabulary.filter(w => w && String(w.english || '').trim()).map(w => normalizeWord(w, WORD_SOURCE.USER)); }
+const LS_USER_WORDS = 'en6_user_words_v1';
+function loadUserWords(){ try{ const r=localStorage.getItem(LS_USER_WORDS); USER_WORDS=r?normalizeUserWords(JSON.parse(r)||[]):[]; }catch(e){ USER_WORDS=[]; } }
 
-<!-- Данные и логика раздела «Алфавит» вынесены в отдельный JS-файл. -->
-<script src="./js/alphabet.js"></script>
-<script src="./js/numbers.js"></script>
+function saveUserWords(){ try{ localStorage.setItem(LS_USER_WORDS, JSON.stringify(USER_WORDS)); }catch(e){} }
+function refreshWordIndexes(){
+  WORDS = window.VOCAB_DATA.concat(USER_WORDS);
+  WORDS_BY_ID = {};
+  WORDS.forEach(w => { WORDS_BY_ID[w.id] = w; });
+  updateVocabTabs();
+  buildAZ();
+}
+function addUserWord(raw){
+  const word = normalizeWord(raw, WORD_SOURCE.USER);
+  if(!word.english || !word.translation) return null;
+  const duplicate = USER_WORDS.find(w => norm(w.english) === norm(word.english) && norm(w.translation) === norm(word.translation));
+  if(duplicate) return duplicate;
+  USER_WORDS.push(word);
+  saveUserWords();
+  refreshWordIndexes();
+  return word;
+}
+function parseUserWordsText(text){
+  const result = [];
+  for(const line of String(text || '').split(/\r?\n/)){
+    const value = line.trim();
+    if(!value || value.startsWith('#')) continue;
+    const parts = value.split(' - ');
+    const english = (parts.shift() || '').trim();
+    const translation = (parts.shift() || '').trim();
+    if(!english || !translation) continue;
+    result.push(normalizeWord({
+      english,
+      translation,
+      transcription: parts[0] || '',
+      russianTranscription: parts[1] || '',
+      partOfSpeech: parts[2] || ''
+    }, WORD_SOURCE.USER));
+  }
+  return result;
+}
+function downloadUserWords(){
+  if(!USER_WORDS.length){ alert('Мои слова пусты.'); return; }
+  const date = new Date().toISOString().slice(0,10);
+  downloadJSON('starlight-my-words-' + date + '.json', { version:2, type:'user-words', words:USER_WORDS });
+}
+function openUserWordsFile(){
+  const input = $('user-words-file');
+  input.value = '';
+  input.click();
+}
+function handleUserWordsImport(e){
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try{
+      const data = JSON.parse(ev.target.result);
+      const source = Array.isArray(data) ? data : data.words;
+      if(!Array.isArray(source)) throw new Error('В файле нет массива words.');
+      let added = 0;
+      source.forEach(raw => { const before = USER_WORDS.length; const w = addUserWord(raw); if(w && USER_WORDS.length > before) added++; });
+      renderVocab();
+      alert('Импортировано новых слов: ' + added);
+    }catch(err){ alert('Не удалось импортировать слова: ' + err.message); }
+  };
+  reader.onerror = () => alert('Ошибка чтения файла.');
+  reader.readAsText(file, 'utf-8');
+}
+function addUserWordFromForm(){
+  const english = $('user-word-english').value.trim();
+  const translation = $('user-word-translation').value.trim();
+  const transcription = $('user-word-transcription').value.trim();
+  const russianTranscription = $('user-word-russian-transcription').value.trim();
+  const partOfSpeech = $('user-word-pos').value.trim();
+  const warn = $('user-word-warn');
+  if(!english || !translation){ warn.textContent='Нужно заполнить английское слово и перевод.'; warn.classList.remove('hidden'); return; }
+  const existing = USER_WORDS.find(w => norm(w.english) === norm(english) && norm(w.translation) === norm(translation));
+  if(existing){ warn.textContent='Такое слово уже есть в «Моих словах».'; warn.classList.remove('hidden'); return; }
+  addUserWord({ english, translation, transcription, russianTranscription, partOfSpeech });
+  $('user-word-english').value=''; $('user-word-translation').value=''; $('user-word-transcription').value=''; $('user-word-russian-transcription').value=''; $('user-word-pos').value=''; warn.classList.add('hidden');
+  renderVocab();
+}
+function addUserWordsBulk(){
+  const text = $('user-words-bulk').value;
+  const parsed = parseUserWordsText(text);
+  let added = 0;
+  for(const word of parsed){ const before = USER_WORDS.length; addUserWord(word); if(USER_WORDS.length > before) added++; }
+  $('user-words-bulk').value='';
+  $('user-words-bulk-warn').textContent = added ? ('Добавлено новых слов: ' + added) : 'Новых слов не добавлено.';
+  $('user-words-bulk-warn').classList.remove('hidden');
+  renderVocab();
+}
 
-<script>
+
 /* ================= УТИЛИТЫ ================= */
 const $ = id => document.getElementById(id);
 const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
@@ -1156,32 +1328,16 @@ function updateCount(inputId, countId, max){
 }
 
 let voices = [];
-
-/*
- * Загружаем доступные голоса устройства.
- * На телефонах список голосов может появляться не сразу.
- */
 function loadVoices(){
   voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
 }
-
 if('speechSynthesis' in window){
   loadVoices();
   speechSynthesis.onvoiceschanged = loadVoices;
 }
 
-/*
- * Выбираем английский голос аккуратно:
- * 1. британский en-GB;
- * 2. американский en-US;
- * 3. любой английский en.
- *
- * Это важно для телефонов, где набор системных голосов
- * отличается от компьютера.
- */
 function getEnglishVoice(){
   if(!voices.length) loadVoices();
-
   return voices.find(v=>/^en[-_]GB$/i.test(v.lang))
       || voices.find(v=>/^en[-_]US$/i.test(v.lang))
       || voices.find(v=>/^en[-_]/i.test(v.lang))
@@ -1191,27 +1347,28 @@ function getEnglishVoice(){
 
 function speakEN(text){
   if(!('speechSynthesis' in window) || !text) return;
-
   try{
     speechSynthesis.cancel();
-
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-GB';
     u.rate = 0.9;
     u.pitch = 1;
-
     const v = getEnglishVoice();
-    if(v){
-      u.voice = v;
-      u.lang = v.lang;
-    }
-
+    if(v){ u.voice = v; u.lang = v.lang; }
     speechSynthesis.speak(u);
   }catch(e){}
 }
 
+/* Безопасная отмена речи (проверка API) */
+function stopSpeech(){
+  if('speechSynthesis' in window){
+    try{ speechSynthesis.cancel(); }catch(e){}
+  }
+}
+
 let WORDS = [];
 let WORDS_BY_ID = {};
+
 let lessons = [];
 let state = { screen:'menu', activeLessonId:null, editingLessonId:null, exercise:null };
 let progress = {};
@@ -1258,6 +1415,13 @@ function markSolved(lessonId, exKey, wordId, total){
 }
 function markDone(lessonId, exKey){ const lp = getLessonProgress(lessonId); lp[exKey] = { done: true }; saveProgress(); }
 function resetEx(lessonId, exKey){ const lp = getLessonProgress(lessonId); delete lp[exKey]; saveProgress(); }
+
+/* Полный сброс прогресса урока */
+function resetLessonProgress(lessonId){
+  delete progress[lessonId];
+  saveProgress();
+}
+
 function reconcileProgress(lessonId, newWordIds){
   const lp = progress[lessonId];
   if(!lp) return;
@@ -1274,14 +1438,22 @@ function reconcileProgress(lessonId, newWordIds){
 }
 
 function show(id){
-  ['screen-menu','screen-alphabet','screen-numbers','screen-vocab','screen-lessons','screen-editor','screen-lesson','screen-help'].forEach(x=>{
-    $(x).classList.toggle('hidden', x!==id);
+  const screens = ['screen-menu','screen-alphabet','screen-numbers','screen-vocab','screen-lessons','screen-editor','screen-lesson','screen-help'];
+  screens.forEach(x=>{
+    const el = $(x);
+    const isTarget = x === id;
+    el.classList.toggle('hidden', !isTarget);
+    if(isTarget){
+      el.classList.remove('screen-anim');
+      void el.offsetWidth;
+      el.classList.add('screen-anim');
+      setTimeout(()=>el.classList.remove('screen-anim'), 320);
+    }
   });
-  $('tabbar').style.display = 'flex';
   $('tab-home').classList.toggle('active', id==='screen-menu');
   $('tab-lessons').classList.toggle('active', id==='screen-lessons');
   $('tab-vocab').classList.toggle('active', id==='screen-vocab');
-  window.scrollTo(0,0);
+  window.scrollTo({top:0, behavior:'auto'});
 }
 function go(screen){
   state.screen = screen; saveState();
@@ -1293,7 +1465,7 @@ function go(screen){
   else if(screen==='help'){ show('screen-help'); }
 }
 
-/* Тап 5 раз по "Starlight 6" → фейерверк */
+/* Тап 5 раз по заголовку → фейерверк */
 let titleTapCount = 0;
 let titleTapTimer = null;
 function onTitleTap(){
@@ -1374,39 +1546,163 @@ function eggBurst(box, count){
   }
 }
 
-const vocabUI = { search:'', letter:'ALL' };
+const vocabUI = { search:'', letter:'ALL', source:'all' };
+let editingUserWordId = null;
+
+function sameWordId(a,b){ return String(a) === String(b); }
+function userWordById(id){ return USER_WORDS.find(w=>sameWordId(w.id,id)) || null; }
+
+function setVocabSource(source){
+  vocabUI.source = source;
+  vocabUI.letter = 'ALL';
+  if(source !== 'user') cancelUserWordEdit();
+  updateVocabTabs();
+  buildAZ();
+  renderVocab();
+}
+function updateVocabTabs(){
+  const configs = [
+    ['vocab-tab-all','vocab-tab-all-count',WORDS.length],
+    ['vocab-tab-library','vocab-tab-library-count',window.VOCAB_DATA.length],
+    ['vocab-tab-user','vocab-tab-user-count',USER_WORDS.length]
+  ];
+  configs.forEach(([buttonId,countId,count])=>{
+    const btn=$(buttonId); if(!btn) return;
+    btn.classList.toggle('active', vocabUI.source===buttonId.replace('vocab-tab-',''));
+    const small=$(countId); if(small) small.textContent=count;
+  });
+}
 function buildAZ(){
-  const present = new Set(WORDS.map(w=>w.letter));
+  const sourceWords = vocabUI.source==='library' ? window.VOCAB_DATA : (vocabUI.source==='user' ? USER_WORDS : WORDS);
+  const present = new Set(sourceWords.map(w=>String(w.english||'').trim().charAt(0).toUpperCase()).filter(Boolean));
   $('az-bar').innerHTML = ['ALL', ...LETTERS].map(L=>{
-    const dis = (L!=='ALL' && !present.has(L)) ? 'disabled' : '';
-    const act = (vocabUI.letter===L) ? 'active' : '';
-    return `<button class="${act}" ${dis} onclick="setLetter('${L}')">${L==='ALL'?'Все':L}</button>`;
+    const dis=(L!=='ALL' && !present.has(L)) ? 'disabled' : '';
+    const act=(vocabUI.letter===L) ? 'active' : '';
+    return '<button class="'+act+'" '+dis+' onclick="setLetter(\''+L+'\')">'+(L==='ALL'?'Все':L)+'</button>';
   }).join('');
 }
-function setLetter(L){ vocabUI.letter = L; buildAZ(); renderVocab(); }
-function renderVocab(){
-  const q = norm(vocabUI.search);
-  if(q === EASTER_EGG){
-    if(!eggShownForQuery){ eggShownForQuery = true; showEgg(); }
-  } else { eggShownForQuery = false; }
+function setLetter(L){ vocabUI.letter=L; buildAZ(); renderVocab(); }
 
-  const items = WORDS.filter(w=>{
-    if(vocabUI.letter!=='ALL' && w.letter!==vocabUI.letter) return false;
-    if(!q) return true;
-    return norm(w.english).includes(q) || norm(w.translation).includes(q);
-  });
-  $('vocab-count').textContent = items.length + ' / ' + WORDS.length;
-  const box = $('vocab-list');
-  if(!items.length){ box.innerHTML = '<div class="muted">Ничего не найдено.</div>'; return; }
-  box.innerHTML = items.map(w=>`
-    <div class="word">
-      <button class="speak" onclick="speakEN(${JSON.stringify(w.english).replace(/"/g,'&quot;')})">🔊</button>
-      <div class="txt">
-        <div><span class="en">${esc(w.english)}</span>${w.partOfSpeech?`<span class="pos">${esc(w.partOfSpeech)}</span>`:''}</div>
-        <div class="ru">${esc(w.translation||'—')}</div>
-      </div>
-    </div>`).join('');
+function resetUserWordForm(){
+  editingUserWordId=null;
+  $('user-word-english').value='';
+  $('user-word-translation').value='';
+  $('user-word-transcription').value='';
+  $('user-word-russian-transcription').value='';
+  $('user-word-pos').value='';
+  $('user-word-form-title').textContent='⭐ Мои слова';
+  $('user-word-save-btn').textContent='＋ Добавить';
+  $('user-word-cancel-btn').classList.add('hidden');
+  $('user-word-warn').classList.add('hidden');
 }
+function cancelUserWordEdit(){ resetUserWordForm(); }
+function beginUserWordEdit(id){
+  const w=userWordById(id); if(!w) return;
+  editingUserWordId=w.id;
+  $('user-word-english').value=w.english||'';
+  $('user-word-translation').value=w.translation||'';
+  $('user-word-transcription').value=w.transcription||'';
+  $('user-word-russian-transcription').value=w.russianTranscription||'';
+  $('user-word-pos').value=w.partOfSpeech||'';
+  $('user-word-form-title').textContent='✏️ Редактировать слово';
+  $('user-word-save-btn').textContent='Сохранить изменения';
+  $('user-word-cancel-btn').classList.remove('hidden');
+  $('user-word-warn').classList.add('hidden');
+  $('user-word-tools').classList.remove('hidden');
+  $('user-word-english').focus();
+}
+function saveUserWordForm(){
+  const english=$('user-word-english').value.trim();
+  const translation=$('user-word-translation').value.trim();
+  const transcription=$('user-word-transcription').value.trim();
+  const russianTranscription=$('user-word-russian-transcription').value.trim();
+  const partOfSpeech=$('user-word-pos').value.trim();
+  const warn=$('user-word-warn');
+  if(!english||!translation){ warn.textContent='Нужно заполнить английское слово и перевод.'; warn.classList.remove('hidden'); return; }
+  const duplicate=USER_WORDS.find(w=>!sameWordId(w.id,editingUserWordId)&&norm(w.english)===norm(english)&&norm(w.translation)===norm(translation));
+  if(duplicate){ warn.textContent='Такое слово уже есть в «Моих словах».'; warn.classList.remove('hidden'); return; }
+
+  if(editingUserWordId!==null){
+    const w=userWordById(editingUserWordId);
+    if(!w){ resetUserWordForm(); return; }
+    w.english=english;
+    w.translation=translation;
+    w.transcription=transcription;
+    w.russianTranscription=russianTranscription;
+    w.partOfSpeech=normalizePartOfSpeech(partOfSpeech);
+    w.letter=english.charAt(0).toUpperCase();
+    saveUserWords();
+    refreshWordIndexes();
+  }else{
+    addUserWord({english,translation,transcription,russianTranscription,partOfSpeech});
+  }
+  resetUserWordForm();
+  renderVocab();
+}
+function deleteUserWord(id){
+  const w=userWordById(id); if(!w) return;
+  const usedIn=lessons.filter(l=>Array.isArray(l.wordIds)&&l.wordIds.some(x=>sameWordId(x,id)));
+  const suffix=usedIn.length ? '\n\nСлово также будет убрано из уроков: '+usedIn.map(l=>l.name).join(', ') : '';
+  if(!confirm('Удалить «'+w.english+'» из «Моих слов»?'+suffix)) return;
+
+  USER_WORDS=USER_WORDS.filter(x=>!sameWordId(x.id,id));
+  saveUserWords();
+  usedIn.forEach(l=>{
+    l.wordIds=l.wordIds.filter(x=>!sameWordId(x,id));
+    reconcileProgress(l.id,l.wordIds);
+  });
+  if(usedIn.length) saveLessons();
+  if(sameWordId(editingUserWordId,id)) resetUserWordForm();
+  refreshWordIndexes();
+  renderVocab();
+}
+function filteredVocabWords(){
+  const q=norm(vocabUI.search);
+  const sourceWords=vocabUI.source==='library' ? window.VOCAB_DATA : (vocabUI.source==='user' ? USER_WORDS : WORDS);
+  return sourceWords.filter(w=>{
+    const letter=String(w.english||'').trim().charAt(0).toUpperCase();
+    if(vocabUI.letter!=='ALL' && letter!==vocabUI.letter) return false;
+    return !q || norm(w.english).includes(q) || norm(w.translation).includes(q);
+  });
+}
+function renderVocab(){
+  const q=norm(vocabUI.search);
+  if(q===EASTER_EGG){ if(!eggShownForQuery){ eggShownForQuery=true; showEgg(); } }
+  else { eggShownForQuery=false; }
+
+  updateVocabTabs();
+  const items=filteredVocabWords();
+  const total=vocabUI.source==='library' ? window.VOCAB_DATA.length : (vocabUI.source==='user' ? USER_WORDS.length : WORDS.length);
+  $('vocab-count').textContent=items.length+' / '+total;
+
+  const toolsCard=$('user-word-tools');
+  if(toolsCard) toolsCard.classList.toggle('hidden',vocabUI.source!=='user');
+
+  const box=$('vocab-list');
+  if(!items.length){
+    box.innerHTML=vocabUI.source==='user'
+      ? '<div class="muted">В «Моих словах» пока ничего нет. Добавь первое слово выше.</div>'
+      : '<div class="muted">Ничего не найдено.</div>';
+    return;
+  }
+
+  box.innerHTML=items.map(w=>{
+    const sourceClass=w.source===WORD_SOURCE.USER?'user':'library';
+    const pos=w.partOfSpeech ? '<span class="pos">'+esc(w.partOfSpeech)+'</span>' : '';
+    const tr=w.transcription ? '<div class="transcription">'+esc(w.transcription)+'</div>' : '';
+    const ruTr=w.russianTranscription ? '<div class="transcription">рус. '+esc(w.russianTranscription)+'</div>' : '';
+    const actions=(w.source===WORD_SOURCE.USER&&vocabUI.source==='user')
+      ? '<div class="word-actions">'+
+          '<button class="word-action" title="Редактировать" onclick="beginUserWordEdit('+JSON.stringify(w.id).replace(/"/g,'&quot;')+')">✏️</button>'+
+          '<button class="word-action danger" title="Удалить" onclick="deleteUserWord('+JSON.stringify(w.id).replace(/"/g,'&quot;')+')">🗑</button>'+
+        '</div>' : '';
+    return '<div class="word">'+
+      '<button class="speak" onclick="speakEN('+JSON.stringify(w.english).replace(/"/g,'&quot;')+')">🔊</button>'+
+      '<div class="txt"><div><span class="en">'+esc(w.english)+'</span>'+pos+'</div>'+tr+ruTr+'<div class="ru">'+esc(w.translation||'—')+'</div>'+
+      '<div class="source-badge '+sourceClass+'">'+sourceLabel(w)+'</div>'+actions+'</div></div>';
+  }).join('');
+}
+
 
 /* ===== МЕТА УПРАЖНЕНИЙ ===== */
 const EX_META = {
@@ -1438,11 +1734,156 @@ function renderLessons(){
         </div>
         <div class="lesson-actions">
           <button class="btn lesson-open-btn" onclick="event.stopPropagation(); openLesson('${l.id}')">${done?'Повторить':'Открыть'}</button>
+          <button class="icon-btn lesson-share-btn" onclick="event.stopPropagation(); exportLesson('${l.id}')" title="Поделиться">📤</button>
           <button class="icon-btn lesson-edit-btn" onclick="event.stopPropagation(); openLessonEditor('${l.id}')">✏️</button>
         </div>
       </div>
     </div>`;
   }).join('');
+}
+
+/* ============================================================
+ * ЭКСПОРТ / ИМПОРТ УРОКОВ
+ * ============================================================ */
+
+function downloadJSON(filename, data){
+  try{
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  }catch(e){
+    alert('Не удалось скачать файл: ' + e.message);
+  }
+}
+
+function lessonToExport(l){
+  const words = l.wordIds.map(id => {
+    const w = WORDS_BY_ID[id];
+    if(!w) return null;
+    return {
+      english: w.english,
+      translation: w.translation || '',
+      partOfSpeech: w.partOfSpeech || '',
+      source: w.source || 'Starlight 6'
+    };
+  }).filter(Boolean);
+  return { name: l.name, words };
+}
+
+function exportLesson(id){
+  const l = lessons.find(x=>x.id===id);
+  if(!l){ alert('Урок не найден.'); return; }
+  const data = {
+    version: 1,
+    type: 'lesson',
+    lessons: [lessonToExport(l)]
+  };
+  const safeName = l.name.replace(/[^a-zA-Zа-яА-Я0-9_\-\s]/g, '').trim() || 'lesson';
+  downloadJSON(safeName + '.json', data);
+}
+
+function exportAllLessons(){
+  if(!lessons.length){ alert('Нет уроков для экспорта.'); return; }
+  const data = {
+    version: 1,
+    type: 'lessons',
+    lessons: lessons.map(lessonToExport)
+  };
+  const date = new Date().toISOString().slice(0,10);
+  downloadJSON('starlight-lessons-' + date + '.json', data);
+}
+
+function triggerImport(){
+  const inp = $('import-file');
+  inp.value = '';
+  inp.click();
+}
+
+function findWordByEnglish(english){
+  const key = norm(english);
+  return WORDS.find(w => norm(w.english) === key) || null;
+}
+
+function importLessonsFromData(data){
+  if(!data || typeof data !== 'object'){
+    alert('Файл повреждён или имеет неверный формат.');
+    return;
+  }
+  if(!Array.isArray(data.lessons) || !data.lessons.length){
+    alert('В файле нет уроков.');
+    return;
+  }
+
+  let added = 0;
+  let skippedWords = 0;
+  let skippedLessons = 0;
+
+  for(const raw of data.lessons){
+    if(!raw || typeof raw.name !== 'string' || !Array.isArray(raw.words)){
+      skippedLessons++;
+      continue;
+    }
+    const name = raw.name.trim().slice(0, NAME_MAX);
+    if(!name || !raw.words.length){ skippedLessons++; continue; }
+
+    const ids = [];
+    for(const rw of raw.words){
+      if(!rw || !rw.english) continue;
+      const found = findWordByEnglish(rw.english);
+      if(found){
+        if(!ids.includes(found.id)) ids.push(found.id);
+      } else {
+        skippedWords++;
+      }
+    }
+    if(ids.length < 2){ skippedLessons++; continue; }
+
+    let finalName = name;
+    if(lessons.some(x => x.name === finalName)){
+      finalName = name + ' (копия)';
+      let n = 2;
+      while(lessons.some(x => x.name === finalName) && n < 100){
+        finalName = name + ' (копия ' + n + ')';
+        n++;
+      }
+    }
+
+    lessons.push({ id: uid(), name: finalName, wordIds: ids, created: Date.now() });
+    added++;
+  }
+
+  if(added > 0){
+    saveLessons();
+    renderLessons();
+  }
+
+  let msg = 'Импортировано уроков: ' + added;
+  if(skippedLessons) msg += '\nПропущено уроков: ' + skippedLessons;
+  if(skippedWords)   msg += '\nСлов не найдено в словаре: ' + skippedWords;
+  if(added === 0)    msg = 'Ничего не импортировано.\n' + msg;
+  alert(msg);
+}
+
+function handleImportFile(e){
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try{
+      const data = JSON.parse(ev.target.result);
+      importLessonsFromData(data);
+    }catch(err){
+      alert('Не удалось прочитать файл: ' + err.message);
+    }
+  };
+  reader.onerror = () => alert('Ошибка чтения файла.');
+  reader.readAsText(file, 'utf-8');
 }
 
 let editor = { id:null, name:'', wordIds:[], search:'' };
@@ -1487,21 +1928,34 @@ function renderEditor(){
 function moveWord(i,d){ const j=i+d; if(j<0||j>=editor.wordIds.length) return; const a=editor.wordIds; [a[i],a[j]]=[a[j],a[i]]; renderEditor(); }
 function removeWord(i){ editor.wordIds.splice(i,1); renderEditor(); }
 function addWord(id){ if(!editor.wordIds.includes(id)) editor.wordIds.push(id); renderEditor(); }
+
+let editorSearchToken = 0;
+
+function sourceLabel(w){ return WORD_SOURCE_LABEL[w.source] || '📘 Библиотека'; }
+
+function renderLocalEditorResults(items){
+  items = items.slice(0,120);
+  $('editor-found').textContent = 'Найдено в словаре: ' + items.length + (items.length===120?'+':'');
+  const box = $('editor-results');
+  if(!items.length){ box.innerHTML = '<div class="muted">Ничего не найдено.</div>'; return false; }
+  box.innerHTML = items.map(w=>{
+    const inL = editor.wordIds.some(id => sameWordId(id, w.id));
+    const id = String(w.id).replace(/'/g, "\\'");
+    return '<div class="chosen-item">' +
+      '<div class="t"><b>' + esc(w.english) + ' ' + (w.partOfSpeech ? '<span class="muted">' + esc(w.partOfSpeech) + '</span>' : '') + '</b><span>' + esc(w.translation||'—') + '</span><small class="muted" style="display:block;margin-top:5px;">' + sourceLabel(w) + '</small></div>' +
+      '<button class="icon-btn" ' + (inL?'disabled':'') + ' onclick="addWord(\'' + id + '\')" style="' + (inL?'background:rgba(48,209,88,.2); color:var(--green);':'') + '">' + (inL?'✓':'＋') + '</button>' +
+      '</div>';
+  }).join('');
+  return true;
+}
 function renderEditorResults(){
   const q = norm(editor.search);
-  let items = q ? WORDS.filter(w=>norm(w.english).includes(q)||norm(w.translation).includes(q)) : WORDS;
-  items = items.slice(0,120);
-  $('editor-found').textContent = q ? ('Найдено: '+items.length+(items.length===120?'+':'')) : '';
   const box = $('editor-results');
-  if(!items.length){ box.innerHTML = '<div class="muted">Ничего не найдено.</div>'; return; }
-  box.innerHTML = items.map(w=>{
-    const inL = editor.wordIds.includes(w.id);
-    return `<div class="chosen-item">
-      <div class="t"><b>${esc(w.english)} ${w.partOfSpeech?`<span class="muted">${esc(w.partOfSpeech)}</span>`:''}</b><span>${esc(w.translation||'—')}</span></div>
-      <button class="icon-btn" ${inL?'disabled':''} onclick="addWord(${w.id})" style="${inL?'background:rgba(48,209,88,.2); color:var(--green);':''}">${inL?'✓':'＋'}</button>
-    </div>`;
-  }).join('');
+  if(!q){ $('editor-found').textContent=''; box.innerHTML='<div class="muted">Начни вводить английское слово.</div>'; return; }
+  const items = WORDS.filter(w => norm(w.english).includes(q) || norm(w.translation).includes(q));
+  renderLocalEditorResults(items);
 }
+
 function saveLesson(){
   const name = $('editor-name').value.trim().slice(0, NAME_MAX);
   const warn = $('editor-warn');
@@ -1549,6 +2003,14 @@ function deleteLesson(){
 let currentLesson = null;
 function openLesson(id){
   const l = lessons.find(x=>x.id===id); if(!l) return;
+
+  // В уроке должно быть минимум 2 слова
+  if(l.wordIds.length < 2){
+    alert('В уроке мало слов (нужно минимум 2). Добавь слова в редакторе.');
+    openLessonEditor(id);
+    return;
+  }
+
   currentLesson = l;
   state.activeLessonId = id; saveState();
   $('lesson-title').textContent = l.name;
@@ -1561,7 +2023,7 @@ function openLesson(id){
 }
 function exitLesson(){
   currentLesson=null; state.activeLessonId=null; state.exercise=null; saveState();
-  if('speechSynthesis' in window) speechSynthesis.cancel();
+  stopSpeech();
   go('lessons');
 }
 function lessonWords(){ return currentLesson ? currentLesson.wordIds.map(id=>WORDS_BY_ID[id]).filter(Boolean) : []; }
@@ -1573,13 +2035,29 @@ function renderExMenu(){
   const box = $('ex-menu');
   const dRow = renderExRow('dictation', l.id, total, true);
   const others = ['listen','cards','truefalse','pairs','letters'].map(k=>renderExRow(k, l.id, total, false)).join('');
+  const anyProgress = EX_ORDER.some(k => exSolvedCount(l.id, k) > 0 || isExDone(l.id, k, total));
+  const resetBtn = anyProgress
+    ? `<button class="btn sec wide" style="margin-top:12px;" onclick="resetCurrentLessonProgress()">🔄 Пройти урок заново</button>`
+    : '';
   box.innerHTML = `
     <div class="muted" style="margin:0 4px 8px; font-size:14px;">🎯 Главный результат — диктант</div>
     <div class="ex-list stagger">${dRow}</div>
     <div class="muted" style="margin:18px 4px 8px; font-size:14px;">Упражнения</div>
     <div class="ex-list stagger">${others}</div>
+    ${resetBtn}
   `;
 }
+
+function resetCurrentLessonProgress(){
+  if(!currentLesson) return;
+  if(!confirm('Сбросить весь прогресс урока «' + currentLesson.name + '»?')) return;
+  resetLessonProgress(currentLesson.id);
+  renderExMenu();
+  $('lesson-finish').classList.add('hidden');
+  $('ex-finish').classList.add('hidden');
+  $('ex-area').classList.add('hidden'); $('ex-area').innerHTML='';
+}
+
 function renderExRow(key, lessonId, total, isMain){
   const m = EX_META[key];
   const isFixed = EX_FIXED.includes(key);
@@ -1647,44 +2125,111 @@ function startExercise(kind, reset){
 }
 
 let listenState = null;
-function runListen(){ listenState = { i:0, auto:false, timer:null }; renderListen(); }
-function renderListen(){
-  const words = lessonWords(); const st = listenState; const w = words[st.i];
-  $('ex-area').innerHTML = `
-    <div class="card center">
-      <div class="muted" style="font-size:13px;">Слово ${st.i+1} из ${words.length}</div>
-      <div class="progress" style="margin:10px 0 18px;"><i style="width:${(st.i/words.length*100).toFixed(1)}%"></i></div>
-      <button class="speak-big" onclick="speakEN(${JSON.stringify(w.english).replace(/"/g,'&quot;')})">🔊</button>
-      <div class="listen-word">${esc(w.english)}</div>
-      <div class="listen-tr">${esc(w.translation||'—')}</div>
-      <div class="row" style="justify-content:center;">
-        <button class="btn sec" onclick="listenPrev()">⬅️</button>
-        <button class="btn" onclick="listenPlay()">🔊</button>
-        <button class="btn sec" onclick="listenNext()">➡️</button>
-      </div>
-      <div class="row" style="justify-content:center; margin-top:12px;">
-        <button class="btn ghost" onclick="listenToggleAuto()">${st.auto?'⏸ Стоп':'▶️ Авто'}</button>
-      </div>
-    </div>`;
-}
-function listenPlay(){ speakEN(lessonWords()[listenState.i].english); }
-function listenPrev(){ if(listenState.i>0){ listenState.i--; renderListen(); } }
-function listenNext(){
+
+function runListen(){
+  const solved = new Set(exSolvedIds(currentLesson.id, 'listen').map(id=>String(id)));
+  listenState = { auto:false, timer:null, activeId:null, solved };
   const words = lessonWords();
-  if(listenState.i < words.length-1){ listenState.i++; renderListen(); }
-  else { listenStopAuto(); markDone(currentLesson.id, 'listen'); finishExercise(true); }
+  if(words.length && solved.size >= words.length){
+    markDone(currentLesson.id, 'listen');
+    finishExercise(true);
+    return;
+  }
+  renderListen();
 }
-function listenToggleAuto(){ listenState.auto ? listenStopAuto() : listenStartAuto(); }
-function listenStartAuto(){ listenState.auto = true; renderListen(); speakEN(lessonWords()[listenState.i].english); listenSchedule(); }
-function listenSchedule(){
-  listenState.timer = setTimeout(()=>{
-    if(!listenState || !listenState.auto) return;
-    const words = lessonWords();
-    if(listenState.i < words.length-1){ listenState.i++; renderListen(); speakEN(words[listenState.i].english); listenSchedule(); }
-    else { listenStopAuto(); markDone(currentLesson.id, 'listen'); finishExercise(true); }
-  }, 2600);
+function listenCountDone(){
+  return listenState ? listenState.solved.size : 0;
 }
-function listenStopAuto(){ if(listenState){ listenState.auto=false; clearTimeout(listenState.timer); } }
+function listenPlayWord(id){
+  const words = lessonWords();
+  const w = words.find(x=>sameWordId(x.id,id));
+  if(!w) return;
+  listenState.activeId = w.id;
+  listenState.solved.add(String(w.id));
+  markSolved(currentLesson.id, 'listen', w.id, words.length);
+  speakEN(w.english);
+  renderListen();
+  if(listenState.solved.size >= words.length){
+    listenStopAuto();
+    markDone(currentLesson.id, 'listen');
+    setTimeout(()=>finishExercise(true), 650);
+  }
+}
+function renderListen(){
+  const words = lessonWords();
+  const st = listenState;
+  if(!words.length){
+    $('ex-area').innerHTML='<div class="card muted">В уроке пока нет слов.</div>';
+    return;
+  }
+  const done=listenCountDone();
+  const pct=(done/words.length*100).toFixed(0);
+  const listHtml=words.map(w=>{
+    const doneWord=st.solved.has(String(w.id));
+    const active=st.activeId!==null && sameWordId(st.activeId,w.id);
+    const pos=w.partOfSpeech ? '<span class="listen-pos">'+esc(w.partOfSpeech)+'</span>' : '';
+    const ipa=w.transcription ? '<div class="listen-ipa">'+esc(w.transcription)+'</div>' : '';
+    const ruTr=w.russianTranscription ? '<div class="listen-extra">рус. '+esc(w.russianTranscription)+'</div>' : '';
+    return '<div class="listen-item '+(active?'active ':'')+(doneWord?'done':'')+'">'+
+      '<button class="speak" onclick="listenPlayWord('+JSON.stringify(w.id).replace(/"/g,'&quot;')+')" title="Прослушать">🔊</button>'+
+      '<div class="listen-main"><div><span class="listen-en">'+esc(w.english)+'</span>'+pos+'</div>'+
+      ipa+'<div class="listen-ru">'+esc(w.translation||'—')+'</div>'+
+      '<div class="listen-extra">'+sourceLabel(w)+(active?' · сейчас':'')+'</div></div>'+
+      '<div class="listen-check">'+(doneWord?'✓':'')+'</div>'+
+      '</div>';
+  }).join('');
+  $('ex-area').innerHTML=
+    '<div class="card">'+
+      '<div class="row" style="justify-content:space-between; margin-bottom:10px;">'+
+        '<span class="muted" style="font-size:13px;">Прослушано: '+done+' / '+words.length+'</span>'+
+        '<span class="muted" style="font-size:13px;">'+(st.auto?'▶️ Воспроизведение':'Слушать слова')+'</span>'+
+      '</div>'+
+      '<div class="progress"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="vocab-actions" style="margin:12px 0;">'+
+        '<button class="btn" onclick="listenToggleAuto()">'+(st.auto?'⏸ Стоп':'▶️ Воспроизвести все')+'</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="card listen-list">'+listHtml+'</div>';
+}
+function listenToggleAuto(){
+  if(!listenState) return;
+  listenState.auto ? listenStopAuto() : listenStartAuto();
+}
+function listenStartAuto(){
+  if(!listenState) return;
+  const words=lessonWords();
+  listenState.auto=true;
+  listenState.activeId=null;
+  renderListen();
+  listenSchedule(0);
+}
+function listenSchedule(index){
+  if(!listenState || !listenState.auto) return;
+  const words=lessonWords();
+  let i=index;
+  while(i<words.length && listenState.solved.has(String(words[i].id))) i++;
+  if(i>=words.length){
+    listenStopAuto();
+    markDone(currentLesson.id,'listen');
+    setTimeout(()=>finishExercise(true),650);
+    return;
+  }
+  const w=words[i];
+  listenState.activeId=w.id;
+  listenState.solved.add(String(w.id));
+  markSolved(currentLesson.id,'listen',w.id,words.length);
+  renderListen();
+  speakEN(w.english);
+  listenState.timer=setTimeout(()=>listenSchedule(i+1),2400);
+}
+function listenStopAuto(){
+  if(!listenState) return;
+  listenState.auto=false;
+  clearTimeout(listenState.timer);
+  listenState.timer=null;
+  stopSpeech();
+  renderListen();
+}
 
 let cardsState = null;
 function runCards(unsolved, total){ cardsState = { queue: shuffle(unsolved.slice()), i: 0, total: total, mode: null }; renderCardsMode(); }
@@ -2162,7 +2707,7 @@ function fireworksRain(box, count){
 function celebrationGoLessons(){
   $('celebration').classList.add('hidden');
   qsa('.pfx', $('celebration')).forEach(el => el.remove());
-  if('speechSynthesis' in window) speechSynthesis.cancel();
+  stopSpeech();
   currentLesson = null;
   state.activeLessonId = null; state.exercise = null; saveState();
   go('lessons');
@@ -2170,7 +2715,7 @@ function celebrationGoLessons(){
 function celebrationRetryDictation(){
   $('celebration').classList.add('hidden');
   qsa('.pfx', $('celebration')).forEach(el => el.remove());
-  if('speechSynthesis' in window) speechSynthesis.cancel();
+  stopSpeech();
   if(!currentLesson) return;
   resetEx(currentLesson.id, 'dictation');
   $('lesson-title').textContent = currentLesson.name;
@@ -2212,56 +2757,59 @@ function finishExercise(complete){
  * ============================================================
  * ЗАПУСК ПРИЛОЖЕНИЯ
  * ============================================================
- * Сначала загружаем внешний словарь.
- * Только после успешной загрузки строим остальные части
- * приложения, потому что уроки и упражнения используют WORDS.
- * ============================================================
  */
 async function boot(){
+  // 1. Словарь — единственное, что критично для запуска.
   try{
-    // Загружаем словарь из data/vocabulary.json.
     await loadVocabulary();
-
-    // Загружаем сохранённое состояние пользователя.
-    loadState();
-
-    // Загружаем список уроков.
-    loadLessons();
-
-    // Загружаем сохранённый прогресс упражнений.
-    loadProgress();
-
-    /*
-     * WORDS остаётся основным массивом слов приложения.
-     * Для остального кода ничего принципиально не меняется.
-     */
-    WORDS = window.VOCAB_DATA;
-  WORDS_BY_ID = {};
-  WORDS.forEach(w=>{ WORDS_BY_ID[w.id] = w; });
-  buildAZ();
-  if(state.screen==='vocab') go('vocab');
-  else if(state.screen==='lessons') go('lessons');
-  else go('menu');
-  $('vocab-search').addEventListener('input', e=>{ vocabUI.search = e.target.value; renderVocab(); });
-  $('editor-search').addEventListener('input', e=>{ editor.search = e.target.value; renderEditorResults(); });
-  $('editor-name').addEventListener('input', e=>{
-    editor.name = e.target.value;
-    updateCount('editor-name', 'editor-name-count', NAME_MAX);
-  });
-  $('main-title').addEventListener('click', onTitleTap);
-  updateCount('editor-name', 'editor-name-count', NAME_MAX);
   }catch(error){
-    /*
-     * Если словарь не загрузился, показываем понятную ошибку
-     * вместо запуска приложения с пустыми данными.
-     */
     console.error('Ошибка загрузки словаря:', error);
     $('vocab-list').innerHTML =
       '<div class="muted">Не удалось загрузить словарь. Проверьте data/vocabulary.json.</div>';
+    return;
   }
+
+  // 2. Индекс слов.
+  loadUserWords();
+  refreshWordIndexes();
+
+  // 3. Сохранённое состояние.
+  loadState();
+  loadLessons();
+  loadProgress();
+
+  // 4. Интерфейс.
+  buildAZ();
+
+  if(state.screen === 'vocab') go('vocab');
+  else if(state.screen === 'lessons') go('lessons');
+  else go('menu');
+
+  // 5. Обработчики.
+  $('vocab-search').addEventListener('input', e => {
+    vocabUI.search = e.target.value;
+    renderVocab();
+  });
+  $('editor-search').addEventListener('input', e => {
+    editor.search = e.target.value;
+    renderEditorResults();
+  });
+  $('editor-name').addEventListener('input', e => {
+    editor.name = e.target.value;
+    updateCount('editor-name', 'editor-name-count', NAME_MAX);
+  });
+  $('import-file').addEventListener('change', handleImportFile);
+  $('user-words-file').addEventListener('change', handleUserWordsImport);
+  $('main-title').addEventListener('click', onTitleTap);
+  updateCount('editor-name', 'editor-name-count', NAME_MAX);
 }
 
 document.addEventListener('DOMContentLoaded', boot);
 </script>
+
+<!-- Данные и логика раздела «Алфавит» вынесены в отдельный JS-файл. -->
+<script src="./js/alphabet.js"></script>
+<script src="./js/numbers.js"></script>
+
 </body>
 </html>
